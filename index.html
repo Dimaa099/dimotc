@@ -1,707 +1,2743 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#070913">
-    <title>DimOTC • Official Super App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-base: #070913;
-            --bg-card: rgba(18, 24, 38, 0.95);
-            --border-glow: rgba(0, 242, 254, 0.25);
-            --accent-neon: #00f2fe;
-            --accent-purple: #7f00ff;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta name="theme-color" content="#070913">
 
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 90px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(127, 0, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.1) 0%, transparent 40%);
-        }
+<title>DimOTC • Official Super App</title>
 
-        /* TOAST NOTIFICATION */
-        #toast {
-            visibility: hidden;
-            min-width: 220px;
-            background-color: #34d399;
-            color: #070913;
-            font-weight: 700;
-            text-align: center;
-            border-radius: 12px;
-            padding: 12px;
-            position: fixed;
-            z-index: 99999;
-            left: 50%;
-            bottom: 90px;
-            transform: translateX(-50%);
-            font-size: 0.85rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: 0.3s ease;
-        }
-        #toast.show {
-            visibility: visible;
-            bottom: 100px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        /* HALAMAN PENDAFTARAN / LOGIN AWAL */
-        #authScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-base);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            padding: 20px;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
+<style>
 
-        .auth-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 24px;
-            padding: 24px;
-            width: 100%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            animation: scaleIn 0.4s ease-out;
-        }
+:root {
+    --bg-base: #070913;
+    --bg-card: rgba(18, 24, 38, 0.95);
+    --border-glow: rgba(0, 242, 254, 0.25);
+    --accent-neon: #00f2fe;
+    --accent-purple: #7f00ff;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #34d399;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
 
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        .auth-logo {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple));
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
-        }
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 90px;
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding: 16px;
-        }
+    background-image:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(127, 0, 255, 0.15) 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 242, 254, 0.10) 0%,
+            transparent 40%
+        );
+}
 
-        /* HALAMAN UTAMA (TABS) */
-        .page-content {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        .page-content.active {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+/* ================= TOAST ================= */
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+#toast {
+    visibility: hidden;
+    min-width: 220px;
+    background-color: var(--success);
+    color: #070913;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px;
+    position: fixed;
+    z-index: 999999;
+    left: 50%;
+    bottom: 90px;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    transition: 0.3s ease;
+}
 
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            padding: 14px 18px;
-            border-radius: 18px;
-            backdrop-filter: blur(16px);
-        }
+#toast.show {
+    visibility: visible;
+    bottom: 100px;
+}
 
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* ================= AUTH ================= */
 
-        .logo-badge {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: #fff;
-        }
+#authScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
 
-        /* CARD BOX */
-        .card-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 20px;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
+    width: 100%;
+    height: 100%;
 
-        .section-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    background: var(--bg-base);
 
-        /* KASIR BANNER */
-        .cashier-banner {
-            background: linear-gradient(135deg, rgba(127, 0, 255, 0.25), rgba(0, 242, 254, 0.15));
-            border: 1px dashed var(--accent-neon);
-            border-radius: 18px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-        .cashier-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(0,242,254,0.4);
-        }
+    z-index: 99999;
 
-        /* CRYPTO TICKER */
-        .crypto-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+    padding: 20px;
 
-        /* BOTTOM NAVIGATION BAR */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: rgba(7, 9, 19, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-glow);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 1000;
-        }
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
 
-        .nav-item {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+.auth-card {
+    background: var(--bg-card);
 
-        .nav-item.active {
-            color: var(--accent-neon);
-        }
+    border: 1px solid var(--border-glow);
 
-        .nav-icon {
-            font-size: 1.2rem;
-        }
+    border-radius: 24px;
 
-        /* METODE PEMBAYARAN */
-        .pay-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
+    padding: 24px;
 
-        .pay-btn {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-align: center;
-            transition: 0.2s;
-        }
+    width: 100%;
+    max-width: 380px;
 
-        .pay-btn.selected {
-            border-color: var(--accent-neon);
-            background: rgba(0, 242, 254, 0.15);
-            box-shadow: 0 0 10px rgba(0,242,254,0.2);
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-        /* KOTAK QRIS */
-        #qrisModalBox {
-            display: none;
-            margin-top: 10px;
-            background: rgba(255,255,255,0.03);
-            border: 1px dashed var(--accent-neon);
-            border-radius: 14px;
-            padding: 16px;
-            text-align: center;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            animation: slideUpSmooth 0.3s ease-out forwards;
-        }
+    gap: 16px;
 
-        @keyframes slideUpSmooth {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
 
-        #qrisModalBox img {
-            width: 190px;
-            background: white;
-            padding: 6px;
-            border-radius: 10px;
-        }
+    animation: scaleIn 0.4s ease-out;
+}
 
-        /* STRUK / NOTA DIGITAL DI DALAM WEB */
-        #invoiceModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 9, 19, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+@keyframes scaleIn {
 
-        .invoice-card {
-            background: var(--bg-card);
-            border: 1px solid var(--accent-neon);
-            border-radius: 20px;
-            padding: 22px;
-            width: 100%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0,242,254,0.3);
-            animation: scaleIn 0.3s ease-out;
-        }
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
 
-        /* FORM INPUT */
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
-        .form-input, .form-select {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            outline: none;
-        }
-        .form-input:focus, .form-select:focus {
-            border-color: var(--accent-neon);
-        }
-        .form-select option { background: #0f172a; color: #fff; }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
-        .submit-btn {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            color: #070913;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,242,254,0.3);
-            margin-top: 4px;
-            width: 100%;
-        }
-        .submit-btn:active { transform: scale(0.97); }
-    </style>
+.auth-logo {
+    width: 70px;
+    height: 70px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-neon),
+            var(--accent-purple)
+        );
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: white;
+
+    box-shadow:
+        0 0 25px rgba(0, 242, 254, 0.5);
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    width: 100%;
+    max-width: 480px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding: 16px;
+}
+
+/* ================= PAGES ================= */
+
+.page-content {
+    display: none;
+
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.page-content.active {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: var(--bg-card);
+
+    border: 1px solid var(--border-glow);
+
+    padding: 14px 18px;
+
+    border-radius: 18px;
+
+    backdrop-filter: blur(16px);
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.logo-badge {
+    width: 38px;
+    height: 38px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-neon),
+            var(--accent-purple)
+        );
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 800;
+
+    color: #fff;
+}
+
+/* ================= CARD ================= */
+
+.card-box {
+    background: var(--bg-card);
+
+    border: 1px solid var(--border-glow);
+
+    border-radius: 20px;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    backdrop-filter: blur(16px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.4);
+}
+
+.section-title {
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+    color: var(--text-main);
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+/* ================= CASHIER ================= */
+
+.cashier-banner {
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127, 0, 255, 0.25),
+            rgba(0, 242, 254, 0.15)
+        );
+
+    border: 1px dashed var(--accent-neon);
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.cashier-avatar {
+
+    width: 50px;
+    height: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-neon),
+            var(--accent-purple)
+        );
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.5rem;
+
+    flex-shrink: 0;
+
+    box-shadow:
+        0 0 15px rgba(0,242,254,0.4);
+}
+
+/* ================= CRYPTO ================= */
+
+.crypto-row {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px;
+
+    background: rgba(255,255,255,0.03);
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ================= NAVIGATION ================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 100%;
+    max-width: 480px;
+
+    background:
+        rgba(7, 9, 19, 0.95);
+
+    backdrop-filter: blur(20px);
+
+    border-top:
+        1px solid var(--border-glow);
+
+    display: flex;
+
+    justify-content: space-around;
+
+    padding: 10px 0;
+
+    z-index: 1000;
+}
+
+.nav-item {
+
+    background: none;
+
+    border: none;
+
+    color: var(--text-muted);
+
+    font-size: 0.7rem;
+
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 4px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.nav-item.active {
+
+    color: var(--accent-neon);
+
+}
+
+.nav-icon {
+
+    font-size: 1.2rem;
+
+}
+
+/* ================= PAYMENT ================= */
+
+.pay-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 8px;
+}
+
+.pay-btn {
+
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.1);
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-weight: 700;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.pay-btn.selected {
+
+    border-color:
+        var(--accent-neon);
+
+    background:
+        rgba(0, 242, 254, 0.15);
+
+    box-shadow:
+        0 0 10px rgba(0,242,254,0.2);
+
+}
+
+/* ================= QRIS ================= */
+
+#qrisModalBox {
+
+    display: none;
+
+    margin-top: 10px;
+
+    background:
+        rgba(255,255,255,0.03);
+
+    border:
+        1px dashed var(--accent-neon);
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    text-align: center;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+
+    animation:
+        slideUpSmooth 0.3s ease-out forwards;
+}
+
+@keyframes slideUpSmooth {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#qrisModalBox img {
+
+    width: 190px;
+
+    background: white;
+
+    padding: 6px;
+
+    border-radius: 10px;
+}
+
+/* ================= INVOICE ================= */
+
+#invoiceModal {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        rgba(7, 9, 19, 0.85);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 999999;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.invoice-card {
+
+    background: var(--bg-card);
+
+    border:
+        1px solid var(--accent-neon);
+
+    border-radius: 20px;
+
+    padding: 22px;
+
+    width: 100%;
+    max-width: 380px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    box-shadow:
+        0 10px 30px rgba(0,242,254,0.3);
+
+    animation:
+        scaleIn 0.3s ease-out;
+}
+
+/* ================= FORM ================= */
+
+.form-group {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.form-label {
+
+    font-size: 0.75rem;
+
+    color: var(--text-muted);
+
+    font-weight: 600;
+}
+
+.form-input,
+.form-select {
+
+    width: 100%;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    border:
+        1px solid rgba(255,255,255,0.1);
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    color: var(--text-main);
+
+    font-size: 0.85rem;
+
+    outline: none;
+}
+
+textarea.form-input {
+
+    resize: vertical;
+
+    min-height: 80px;
+}
+
+.form-input:focus,
+.form-select:focus {
+
+    border-color:
+        var(--accent-neon);
+
+    box-shadow:
+        0 0 10px rgba(0,242,254,0.1);
+}
+
+.form-select option {
+
+    background:
+        #0f172a;
+
+    color: #fff;
+}
+
+/* ================= BUTTON ================= */
+
+.submit-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #00f2fe 0%,
+            #4facfe 100%
+        );
+
+    color: #070913;
+
+    border: none;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 15px rgba(0,242,254,0.3);
+
+    margin-top: 4px;
+
+    width: 100%;
+
+    transition: 0.2s;
+}
+
+.submit-btn:active {
+
+    transform: scale(0.97);
+
+}
+
+/* ================= ORDER INFO ================= */
+
+.wallet-warning {
+
+    font-size: 0.65rem;
+
+    color: var(--warning);
+
+    line-height: 1.4;
+
+}
+
+.order-info {
+
+    background:
+        rgba(0,242,254,0.05);
+
+    border:
+        1px solid rgba(0,242,254,0.15);
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    font-size: 0.7rem;
+
+    line-height: 1.5;
+
+}
+
+/* ================= WHATSAPP ================= */
+
+.whatsapp-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #25D366,
+            #128C7E
+        );
+
+    color: white;
+
+    border: none;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    font-size: 0.9rem;
+
+    width: 100%;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 15px rgba(37,211,102,0.3);
+}
+
+/* ================= HISTORY ================= */
+
+.history-item {
+
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    font-size: 0.72rem;
+
+    line-height: 1.6;
+}
+
+</style>
 </head>
+
 <body>
 
-<!-- TOAST ALERT -->
-<div id="toast">Berhasil!</div>
+<!-- ================= TOAST ================= -->
 
-<!-- HALAMAN PENDAFTARAN / LOGIN WAJIB DI AWAL -->
+<div id="toast">
+    Berhasil!
+</div>
+
+
+<!-- ================= LOGIN ================= -->
+
 <div id="authScreen">
+
     <div class="auth-card">
-        <div class="auth-logo">D</div>
-        <div style="text-align: center;">
-            <h2 style="font-size: 1.2rem; font-weight: 700;">Selamat Datang di DimOTC</h2>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Silakan masukkan data diri Anda untuk masuk ke aplikasi.</p>
+
+        <div class="auth-logo">
+            D
         </div>
 
-        <form onsubmit="handleRegister(event)" style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+        <div style="text-align:center;">
+
+            <h2 style="font-size:1.2rem;font-weight:700;">
+                Selamat Datang di DimOTC
+            </h2>
+
+            <p style="
+                font-size:0.75rem;
+                color:var(--text-muted);
+                margin-top:4px;
+            ">
+                Silakan masukkan data diri Anda untuk masuk ke aplikasi.
+            </p>
+
+        </div>
+
+
+        <form
+            onsubmit="handleRegister(event)"
+            style="
+                width:100%;
+                display:flex;
+                flex-direction:column;
+                gap:12px;
+            "
+        >
+
             <div class="form-group">
-                <label class="form-label">Nama Lengkap</label>
-                <input type="text" id="regName" class="form-input" placeholder="Contoh: Budi Santoso" required>
+
+                <label class="form-label">
+                    Nama Lengkap
+                </label>
+
+                <input
+                    type="text"
+                    id="regName"
+                    class="form-input"
+                    placeholder="Contoh: Budi Santoso"
+                    required
+                >
+
             </div>
+
+
             <div class="form-group">
-                <label class="form-label">Nomor WhatsApp</label>
-                <input type="tel" id="regWa" class="form-input" placeholder="Contoh: 0896xxxxxxxx" required>
-            </div>
-            <button type="submit" class="submit-btn" style="margin-top: 6px;">🚀 MASUK KE APLIKASI</button>
-        </form>
-    </div>
-</div>
 
-<!-- STRUK / NOTA DIGITAL DI DALAM WEB -->
-<div id="invoiceModal">
-    <div class="invoice-card">
-        <div style="text-align: center; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 10px;">
-            <h3 style="color: var(--accent-neon); font-size: 1.1rem;">🧾 NOTA TRANSAKSI DIMOTC</h3>
-            <p style="font-size: 0.65rem; color: var(--text-muted);">Pesanan berhasil dibuat di dalam sistem</p>
-        </div>
-        <div style="font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px;">
-            <div><b>No. Order:</b> <span id="invId">-</span></div>
-            <div><b>Layanan:</b> <span id="invService">-</span></div>
-            <div><b>Detail:</b> <span id="invDetail">-</span></div>
-            <div><b>Pembayaran:</b> <span id="invPay">-</span></div>
-            <div><b>Status:</b> <span style="color: #f59e0b; font-weight: bold;">⏳ Menunggu Pembayaran</span></div>
-        </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; font-size: 0.7rem; color: var(--text-muted); line-height: 1.3;">
-            Silakan lakukan transfer sesuai metode yang dipilih. Saldo/aset akan diproses otomatis oleh kasir setelah konfirmasi.
-        </div>
-        <button type="button" onclick="closeInvoice()" class="submit-btn" style="background: #34d399; color: #070913;">SELESAI / TUTUP</button>
-    </div>
-</div>
+                <label class="form-label">
+                    Nomor WhatsApp
+                </label>
 
-<div class="container" id="mainAppContainer" style="display: none;">
+                <input
+                    type="tel"
+                    id="regWa"
+                    class="form-input"
+                    placeholder="Contoh: 0896xxxxxxxx"
+                    required
+                >
 
-    <!-- HEADER GLOBAL -->
-    <div class="header">
-        <div class="logo-box">
-            <div class="logo-badge">D</div>
-            <div>
-                <h1 style="font-size: 1.1rem; font-weight: 700;">DimOTC</h1>
-                <p style="font-size: 0.65rem; color: var(--text-muted);">Secure Exchange</p>
-            </div>
-        </div>
-        <div style="font-size: 0.75rem; color: #34d399; font-weight: 600; display: flex; align-items: center; gap: 5px;">
-            <span style="width: 7px; height: 7px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399;"></span> Online
-        </div>
-    </div>
-
-    <!-- ================= MENU 1: BERANDA ================= -->
-    <div id="page-home" class="page-content active">
-        <!-- Kasir Banner -->
-        <div class="cashier-banner">
-            <div class="cashier-avatar">👩‍💼</div>
-            <div>
-                <h3 style="font-size: 0.95rem; font-weight: 700;" id="welcomeUserText">Halo, Pengguna!</h3>
-                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; margin-top: 2px;">Kasir DimOTC siap melayani transaksi dan penukaran aset Anda dengan cepat & aman.</p>
-            </div>
-        </div>
-
-        <div class="card-box">
-            <div class="section-title">📈 Harga Kripto Real-Time</div>
-            <div class="crypto-row">
-                <span>Bitcoin (BTC)</span>
-                <span style="color: #34d399; font-weight: 700;">$64,820.00</span>
-            </div>
-            <div class="crypto-row">
-                <span>Ethereum (ETH)</span>
-                <span style="color: #34d399; font-weight: 700;">$3,510.00</span>
-            </div>
-            <div class="crypto-row">
-                <span>Polygon (MATIC)</span>
-                <span style="color: var(--accent-neon); font-weight: 700;">$0.54</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= MENU 2: BELI ================= -->
-    <div id="page-buy" class="page-content">
-        <div class="card-box">
-            <div class="section-title">🛒 Form Pembelian Aset & Layanan</div>
-            <form onsubmit="processInAppCheckout(event, 'BELI')">
-                <div class="form-group">
-                    <label class="form-label">Pilih Layanan</label>
-                    <select id="buyService" class="form-select" required>
-                        <option value="" disabled selected>-- Pilih Layanan --</option>
-                        <option value="Crypto Eceran & Gas Fee">🪙 Kripto Eceran & Gas Fee</option>
-                        <option value="Top Up E-Wallet / Pulsa">⚡ Top Up E-Wallet / Pulsa</option>
-                        <option value="Lainnya">💎 Request Khusus</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-top: 10px;">
-                    <label class="form-label">Detail / Nominal</label>
-                    <input type="text" id="buyDetail" class="form-input" placeholder="Contoh: Beli Matic Rp 100k / Alamat Wallet" required>
-                </div>
-
-                <div class="form-group" style="margin-top: 10px;">
-                    <label class="form-label">Pilih Metode Pembayaran</label>
-                    <div class="pay-grid">
-                        <div class="pay-btn" onclick="selectPayMethod('DANA (089657445858)')">DANA</div>
-                        <div class="pay-btn" onclick="selectPayMethod('GoPay (083136057107)')">GoPay</div>
-                        <div class="pay-btn" onclick="selectPayMethod('SeaBank (901123119104)')">SeaBank</div>
-                        <div class="pay-btn" onclick="selectPayMethod('QRIS All Payment')">⚡ QRIS</div>
-                    </div>
-                </div>
-
-                <!-- Kotak QRIS Interaktif -->
-                <div id="qrisModalBox">
-                    <img src="IMG-20260717-WA0248(1).jpg" alt="QRIS DimOTC">
-                    <span style="font-size: 0.75rem; font-weight: 600;">Scan QRIS All Payment (Toko Kelontong)</span>
-                    <span style="font-size: 0.65rem; color: var(--text-muted);">NMID: ID1025456700786</span>
-                </div>
-
-                <button type="submit" class="submit-btn" style="margin-top: 10px;">PROSES PESANAN SEKARANG</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ================= MENU 3: JUAL ================= -->
-    <div id="page-sell" class="page-content">
-        <div class="card-box">
-            <div class="section-title">💸 Form Penjualan / Convert Saldo</div>
-            <form onsubmit="processInAppCheckout(event, 'JUAL')">
-                <div class="form-group">
-                    <label class="form-label">Jenis Saldo yang Dijual</label>
-                    <select id="sellService" class="form-select" required>
-                        <option value="" disabled selected>-- Pilih Layanan --</option>
-                        <option value="Convert Saldo PayPal">💳 Convert Saldo PayPal</option>
-                        <option value="Jual Crypto / Aset">🪙 Jual Crypto / Aset Digital</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-top: 10px;">
-                    <label class="form-label">Jumlah / Nominal</label>
-                    <input type="text" id="sellDetail" class="form-input" placeholder="Contoh: Jual $20 PayPal / Saldo" required>
-                </div>
-                <button type="submit" class="submit-btn" style="margin-top: 10px;">PROSES PENJUALAN</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ================= MENU 4: PROFIL & BANTUAN CS ================= -->
-    <div id="page-profile" class="page-content">
-        <div class="card-box" style="align-items: center; text-align: center;">
-            <div style="width: 65px; height: 65px; background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; color: white; box-shadow: 0 0 20px rgba(0,242,254,0.4);">D</div>
-            <div>
-                <h3 id="profileName" style="font-size: 1.05rem; font-weight: 700;">Member DimOTC</h3>
-                <p id="profileWa" style="font-size: 0.7rem; color: var(--text-muted);">No WA: -</p>
-            </div>
-            
-            <div style="width: 100%; background: rgba(0,242,254,0.06); border: 1px solid var(--border-glow); border-radius: 16px; padding: 16px; margin-top: 6px;">
-                <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">SALDO HADIAH ANDA</span>
-                <h2 id="userBalance" style="font-size: 1.8rem; color: var(--accent-neon); margin-top: 4px; font-weight: 800;">Rp 0</h2>
-                <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">Minimal penarikan saldo adalah Rp 10.000</p>
             </div>
 
-            <button type="button" onclick="withdrawBalance()" class="submit-btn" style="background: linear-gradient(135deg, #34d399, #059669); color: white; box-shadow: 0 0 15px rgba(52,211,153,0.3);">
-                💳 TARIK SALDO (Min. Rp 10.000)
+
+            <button
+                type="submit"
+                class="submit-btn"
+                style="margin-top:6px;"
+            >
+                🚀 MASUK KE APLIKASI
             </button>
 
-            <!-- Tombol Darurat / Kendala ke WhatsApp Admin -->
-            <a href="https://wa.me/6289657445858?text=Halo%20Admin%20DimOTC%20saya%20ada%20kendala%20transaksi" target="_blank" rel="noopener" style="width: 100%; text-decoration: none; margin-top: 4px;">
-                <button type="button" class="submit-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff;">
-                    💬 HUBUNGI CS / KENDALA (WhatsApp)
-                </button>
-            </a>
-        </div>
+        </form>
+
     </div>
 
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-<div class="bottom-nav" id="bottomNavMenu" style="display: none;">
-    <button class="nav-item active" onclick="switchTab('home', this)">
+
+<!-- ================= INVOICE ================= -->
+
+<div id="invoiceModal">
+
+    <div class="invoice-card">
+
+        <div style="
+            text-align:center;
+            border-bottom:
+                1px dashed rgba(255,255,255,0.2);
+            padding-bottom:10px;
+        ">
+
+            <h3 style="
+                color:var(--accent-neon);
+                font-size:1.1rem;
+            ">
+                🧾 NOTA TRANSAKSI DIMOTC
+            </h3>
+
+            <p style="
+                font-size:0.65rem;
+                color:var(--text-muted);
+            ">
+                Pesanan berhasil dibuat
+            </p>
+
+        </div>
+
+
+        <div style="
+            font-size:0.8rem;
+            display:flex;
+            flex-direction:column;
+            gap:7px;
+        ">
+
+            <div>
+                <b>No. Order:</b>
+                <span id="invId">-</span>
+            </div>
+
+            <div>
+                <b>Layanan:</b>
+                <span id="invService">-</span>
+            </div>
+
+            <div>
+                <b>Nominal:</b>
+                <span id="invDetail">-</span>
+            </div>
+
+            <div id="invNetworkRow">
+                <b>Jaringan:</b>
+                <span id="invNetwork">-</span>
+            </div>
+
+            <div id="invWalletRow">
+
+                <b>Wallet:</b>
+
+                <span
+                    id="invWallet"
+                    style="
+                        word-break:break-all;
+                        color:var(--accent-neon);
+                    "
+                >
+                    -
+                </span>
+
+            </div>
+
+            <div>
+
+                <b>Pembayaran:</b>
+
+                <span id="invPay">
+                    -
+                </span>
+
+            </div>
+
+            <div>
+
+                <b>Status:</b>
+
+                <span style="
+                    color:var(--warning);
+                    font-weight:bold;
+                ">
+                    ⏳ Menunggu Pembayaran
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="order-info">
+
+            💡 <b>Langkah berikutnya</b>
+
+            <br><br>
+
+            Silakan transfer sesuai metode pembayaran
+            yang dipilih.
+
+            <br><br>
+
+            Setelah melakukan pembayaran,
+            tekan tombol WhatsApp di bawah
+            untuk mengirim detail order ke admin DimOTC.
+
+        </div>
+
+
+        <button
+            type="button"
+            onclick="sendOrderToWhatsApp()"
+            class="whatsapp-btn"
+        >
+            📲 KIRIM ORDER KE WHATSAPP ADMIN
+        </button>
+
+
+        <button
+            type="button"
+            onclick="closeInvoice()"
+            class="submit-btn"
+            style="
+                background:#34d399;
+                color:#070913;
+            "
+        >
+            SELESAI / TUTUP
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div
+    class="container"
+    id="mainAppContainer"
+    style="display:none;"
+>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo-box">
+
+            <div class="logo-badge">
+                D
+            </div>
+
+            <div>
+
+                <h1 style="
+                    font-size:1.1rem;
+                    font-weight:700;
+                ">
+                    DimOTC
+                </h1>
+
+                <p style="
+                    font-size:0.65rem;
+                    color:var(--text-muted);
+                ">
+                    Secure Exchange
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div style="
+            font-size:0.75rem;
+            color:#34d399;
+            font-weight:600;
+            display:flex;
+            align-items:center;
+            gap:5px;
+        ">
+
+            <span style="
+                width:7px;
+                height:7px;
+                background:#34d399;
+                border-radius:50%;
+                box-shadow:0 0 8px #34d399;
+            "></span>
+
+            Online
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= HOME ================= -->
+
+    <div
+        id="page-home"
+        class="page-content active"
+    >
+
+        <div class="cashier-banner">
+
+            <div class="cashier-avatar">
+                👩‍💼
+            </div>
+
+            <div>
+
+                <h3
+                    id="welcomeUserText"
+                    style="
+                        font-size:0.95rem;
+                        font-weight:700;
+                    "
+                >
+                    Halo, Pengguna!
+                </h3>
+
+                <p style="
+                    font-size:0.75rem;
+                    color:var(--text-muted);
+                    line-height:1.3;
+                    margin-top:2px;
+                ">
+                    Kasir DimOTC siap melayani transaksi
+                    dan penukaran aset Anda dengan cepat & aman.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-box">
+
+            <div class="section-title">
+                📈 Harga Kripto
+            </div>
+
+            <div class="crypto-row">
+
+                <span>
+                    Bitcoin (BTC)
+                </span>
+
+                <span style="
+                    color:#34d399;
+                    font-weight:700;
+                ">
+                    $64,820.00
+                </span>
+
+            </div>
+
+
+            <div class="crypto-row">
+
+                <span>
+                    Ethereum (ETH)
+                </span>
+
+                <span style="
+                    color:#34d399;
+                    font-weight:700;
+                ">
+                    $3,510.00
+                </span>
+
+            </div>
+
+
+            <div class="crypto-row">
+
+                <span>
+                    USDT
+                </span>
+
+                <span style="
+                    color:var(--accent-neon);
+                    font-weight:700;
+                ">
+                    Stablecoin
+                </span>
+
+            </div>
+
+
+            <div class="crypto-row">
+
+                <span>
+                    Polygon (MATIC)
+                </span>
+
+                <span style="
+                    color:var(--accent-neon);
+                    font-weight:700;
+                ">
+                    $0.54
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BELI ================= -->
+
+    <div
+        id="page-buy"
+        class="page-content"
+    >
+
+        <div class="card-box">
+
+            <div class="section-title">
+                🛒 Beli Crypto / Layanan
+            </div>
+
+
+            <form
+                onsubmit="processInAppCheckout(event,'BELI')"
+            >
+
+
+                <!-- LAYANAN -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Pilih Layanan
+                    </label>
+
+                    <select
+                        id="buyService"
+                        class="form-select"
+                        required
+                        onchange="updateBuyForm()"
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                            selected
+                        >
+                            -- Pilih Layanan --
+                        </option>
+
+                        <option value="Beli USDT">
+                            🪙 Beli USDT
+                        </option>
+
+                        <option value="Beli BTC">
+                            ₿ Beli BTC
+                        </option>
+
+                        <option value="Beli ETH">
+                            ♦️ Beli ETH
+                        </option>
+
+                        <option value="Crypto Eceran & Gas Fee">
+                            ⛽ Crypto Eceran & Gas Fee
+                        </option>
+
+                        <option value="Top Up E-Wallet / Pulsa">
+                            ⚡ Top Up E-Wallet / Pulsa
+                        </option>
+
+                        <option value="Lainnya">
+                            💎 Request Khusus
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CRYPTO FIELDS -->
+
+                <div
+                    id="cryptoFields"
+                    style="
+                        display:none;
+                        margin-top:10px;
+                    "
+                >
+
+
+                    <!-- NETWORK -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Pilih Jaringan
+                        </label>
+
+                        <select
+                            id="buyNetwork"
+                            class="form-select"
+                        >
+
+                            <option value="BEP20">
+                                BNB Smart Chain (BEP20)
+                            </option>
+
+                            <option value="ERC20">
+                                Ethereum (ERC20)
+                            </option>
+
+                            <option value="TRC20">
+                                TRON (TRC20)
+                            </option>
+
+                            <option value="SOL">
+                                Solana
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- NOMINAL -->
+
+                    <div
+                        class="form-group"
+                        style="margin-top:10px;"
+                    >
+
+                        <label class="form-label">
+                            Nominal Pembelian (Rupiah)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="buyAmount"
+                            class="form-input"
+                            placeholder="Contoh: 50000"
+                            min="1000"
+                        >
+
+                    </div>
+
+
+                    <!-- WALLET -->
+
+                    <div
+                        class="form-group"
+                        style="margin-top:10px;"
+                    >
+
+                        <label class="form-label">
+                            Alamat Wallet Penerima
+                        </label>
+
+                        <textarea
+                            id="walletAddress"
+                            class="form-input"
+                            rows="3"
+                            placeholder="Masukkan alamat wallet penerima"
+                        ></textarea>
+
+
+                        <div class="wallet-warning">
+
+                            ⚠️ Pastikan alamat wallet dan
+                            jaringan sudah benar.
+
+                            Kesalahan jaringan dapat menyebabkan
+                            aset tidak dapat diterima.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DETAIL UMUM -->
+
+                <div
+                    id="generalDetail"
+                    class="form-group"
+                    style="margin-top:10px;"
+                >
+
+                    <label class="form-label">
+                        Detail / Nominal
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyDetail"
+                        class="form-input"
+                        placeholder="Contoh: Pulsa 50.000"
+                    >
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div
+                    class="form-group"
+                    style="margin-top:10px;"
+                >
+
+                    <label class="form-label">
+                        Pilih Metode Pembayaran
+                    </label>
+
+
+                    <div class="pay-grid">
+
+
+                        <button
+                            type="button"
+                            class="pay-btn"
+                            onclick="selectPayMethod(
+                                'DANA (089657445858)',
+                                this
+                            )"
+                        >
+                            DANA
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="pay-btn"
+                            onclick="selectPayMethod(
+                                'GoPay (083136057107)',
+                                this
+                            )"
+                        >
+                            GoPay
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="pay-btn"
+                            onclick="selectPayMethod(
+                                'SeaBank (901123119104)',
+                                this
+                            )"
+                        >
+                            SeaBank
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="pay-btn"
+                            onclick="selectPayMethod(
+                                'QRIS All Payment',
+                                this
+                            )"
+                        >
+                            ⚡ QRIS
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- QRIS -->
+
+                <div id="qrisModalBox">
+
+                    <img
+                        src="IMG-20260717-WA0248(1).jpg"
+                        alt="QRIS DimOTC"
+                    >
+
+                    <span style="
+                        font-size:0.75rem;
+                        font-weight:600;
+                    ">
+                        Scan QRIS All Payment
+                    </span>
+
+                    <span style="
+                        font-size:0.65rem;
+                        color:var(--text-muted);
+                    ">
+                        NMID: ID1025456700786
+                    </span>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    style="margin-top:10px;"
+                >
+                    🚀 BUAT PESANAN
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JUAL ================= -->
+
+    <div
+        id="page-sell"
+        class="page-content"
+    >
+
+        <div class="card-box">
+
+            <div class="section-title">
+                💸 Form Penjualan / Convert Saldo
+            </div>
+
+
+            <form
+                onsubmit="processInAppCheckout(event,'JUAL')"
+            >
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Jenis Saldo yang Dijual
+                    </label>
+
+                    <select
+                        id="sellService"
+                        class="form-select"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                            selected
+                        >
+                            -- Pilih Layanan --
+                        </option>
+
+                        <option value="Convert Saldo PayPal">
+                            💳 Convert Saldo PayPal
+                        </option>
+
+                        <option value="Jual Crypto / Aset">
+                            🪙 Jual Crypto / Aset Digital
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    class="form-group"
+                    style="margin-top:10px;"
+                >
+
+                    <label class="form-label">
+                        Jumlah / Nominal
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sellDetail"
+                        class="form-input"
+                        placeholder="Contoh: Jual $20 PayPal / Saldo"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    class="form-group"
+                    style="margin-top:10px;"
+                >
+
+                    <label class="form-label">
+                        Rekening / E-Wallet Penerima Dana
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sellDestination"
+                        class="form-input"
+                        placeholder="Contoh: DANA 0896xxxx"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    style="margin-top:10px;"
+                >
+                    🚀 PROSES PENJUALAN
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= PROFILE ================= -->
+
+    <div
+        id="page-profile"
+        class="page-content"
+    >
+
+        <div
+            class="card-box"
+            style="
+                align-items:center;
+                text-align:center;
+            "
+        >
+
+            <div style="
+                width:65px;
+                height:65px;
+
+                background:
+                    linear-gradient(
+                        135deg,
+                        var(--accent-neon),
+                        var(--accent-purple)
+                    );
+
+                border-radius:50%;
+
+                display:flex;
+                align-items:center;
+                justify-content:center;
+
+                font-size:1.6rem;
+                font-weight:800;
+                color:white;
+
+                box-shadow:
+                    0 0 20px rgba(0,242,254,0.4);
+            ">
+                D
+            </div>
+
+
+            <div>
+
+                <h3
+                    id="profileName"
+                    style="
+                        font-size:1.05rem;
+                        font-weight:700;
+                    "
+                >
+                    Member DimOTC
+                </h3>
+
+                <p
+                    id="profileWa"
+                    style="
+                        font-size:0.7rem;
+                        color:var(--text-muted);
+                    "
+                >
+                    No WA: -
+                </p>
+
+            </div>
+
+
+            <div style="
+                width:100%;
+                background:rgba(0,242,254,0.06);
+                border:1px solid var(--border-glow);
+                border-radius:16px;
+                padding:16px;
+                margin-top:6px;
+            ">
+
+                <span style="
+                    font-size:0.7rem;
+                    color:var(--text-muted);
+                    font-weight:700;
+                    letter-spacing:0.5px;
+                ">
+                    SALDO HADIAH ANDA
+                </span>
+
+                <h2
+                    id="userBalance"
+                    style="
+                        font-size:1.8rem;
+                        color:var(--accent-neon);
+                        margin-top:4px;
+                        font-weight:800;
+                    "
+                >
+                    Rp 0
+                </h2>
+
+                <p style="
+                    font-size:0.65rem;
+                    color:var(--text-muted);
+                    margin-top:4px;
+                ">
+                    Minimal penarikan saldo adalah Rp 10.000
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                onclick="withdrawBalance()"
+                class="submit-btn"
+                style="
+                    background:
+                        linear-gradient(
+                            135deg,
+                            #34d399,
+                            #059669
+                        );
+
+                    color:white;
+
+                    box-shadow:
+                        0 0 15px rgba(52,211,153,0.3);
+                "
+            >
+                💳 TARIK SALDO
+            </button>
+
+
+            <a
+                href="https://wa.me/6289657445858?text=Halo%20Admin%20DimOTC%20saya%20ada%20kendala%20transaksi"
+                target="_blank"
+                rel="noopener"
+                style="
+                    width:100%;
+                    text-decoration:none;
+                    margin-top:4px;
+                "
+            >
+
+                <button
+                    type="button"
+                    class="submit-btn"
+                    style="
+                        background:
+                            rgba(255,255,255,0.06);
+
+                        border:
+                            1px solid rgba(255,255,255,0.15);
+
+                        color:#fff;
+                    "
+                >
+                    💬 HUBUNGI CS
+                </button>
+
+            </a>
+
+        </div>
+
+
+        <!-- HISTORY -->
+
+        <div class="card-box">
+
+            <div class="section-title">
+                🧾 Order Terakhir
+            </div>
+
+            <div
+                id="lastOrderBox"
+                class="history-item"
+            >
+                Belum ada transaksi.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<div
+    class="bottom-nav"
+    id="bottomNavMenu"
+    style="display:none;"
+>
+
+    <button
+        class="nav-item active"
+        onclick="switchTab('home',this)"
+    >
         <span class="nav-icon">🏠</span>
         Beranda
     </button>
-    <button class="nav-item" onclick="switchTab('buy', this)">
+
+
+    <button
+        class="nav-item"
+        onclick="switchTab('buy',this)"
+    >
         <span class="nav-icon">🛒</span>
         Beli
     </button>
-    <button class="nav-item" onclick="switchTab('sell', this)">
+
+
+    <button
+        class="nav-item"
+        onclick="switchTab('sell',this)"
+    >
         <span class="nav-icon">💸</span>
         Jual
     </button>
-    <button class="nav-item" onclick="switchTab('profile', this)">
+
+
+    <button
+        class="nav-item"
+        onclick="switchTab('profile',this)"
+    >
         <span class="nav-icon">👤</span>
         Profil
     </button>
+
 </div>
 
+
 <script>
-    // Fungsi Registrasi Awal Pengguna
-    function handleRegister(event) {
-        event.preventDefault();
-        let name = document.getElementById('regName').value;
-        let wa = document.getElementById('regWa').value;
 
-        localStorage.setItem('dimotc_name', name);
-        localStorage.setItem('dimotc_wa', wa);
+/* =====================================================
+   DATA GLOBAL
+===================================================== */
 
-        document.getElementById('welcomeUserText').innerText = "Halo, " + name + "!";
-        document.getElementById('profileName').innerText = name;
-        document.getElementById('profileWa').innerText = "No WA: " + wa;
+let selectedPaymentMethod = "";
 
-        let authScreen = document.getElementById('authScreen');
-        authScreen.style.opacity = '0';
-        authScreen.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            authScreen.style.display = 'none';
-            document.getElementById('mainAppContainer').style.display = 'flex';
-            document.getElementById('bottomNavMenu').style.display = 'flex';
-            showToast('Selamat datang, ' + name + '!');
-        }, 400);
+let currentOrderMessage = "";
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+function handleRegister(event) {
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById('regName').value.trim();
+
+    const wa =
+        document.getElementById('regWa').value.trim();
+
+
+    localStorage.setItem(
+        'dimotc_name',
+        name
+    );
+
+    localStorage.setItem(
+        'dimotc_wa',
+        wa
+    );
+
+
+    updateUserInterface(
+        name,
+        wa
+    );
+
+
+    const authScreen =
+        document.getElementById('authScreen');
+
+
+    authScreen.style.opacity = '0';
+
+    authScreen.style.transform =
+        'scale(1.05)';
+
+
+    setTimeout(() => {
+
+        authScreen.style.display =
+            'none';
+
+        document.getElementById(
+            'mainAppContainer'
+        ).style.display = 'flex';
+
+        document.getElementById(
+            'bottomNavMenu'
+        ).style.display = 'flex';
+
+        showToast(
+            'Selamat datang, ' + name + '!'
+        );
+
+    }, 400);
+}
+
+
+/* =====================================================
+   UPDATE USER
+===================================================== */
+
+function updateUserInterface(
+    name,
+    wa
+) {
+
+    document.getElementById(
+        'welcomeUserText'
+    ).innerText =
+        "Halo, " + name + "!";
+
+
+    document.getElementById(
+        'profileName'
+    ).innerText =
+        name;
+
+
+    document.getElementById(
+        'profileWa'
+    ).innerText =
+        "No WA: " + wa;
+}
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+window.onload = function() {
+
+    const savedName =
+        localStorage.getItem(
+            'dimotc_name'
+        );
+
+    const savedWa =
+        localStorage.getItem(
+            'dimotc_wa'
+        );
+
+
+    if (
+        savedName &&
+        savedWa
+    ) {
+
+        updateUserInterface(
+            savedName,
+            savedWa
+        );
+
+        document.getElementById(
+            'authScreen'
+        ).style.display = 'none';
+
+        document.getElementById(
+            'mainAppContainer'
+        ).style.display = 'flex';
+
+        document.getElementById(
+            'bottomNavMenu'
+        ).style.display = 'flex';
+
     }
 
-    // Cek memori lokal saat pertama buka
-    window.onload = function() {
-        let savedName = localStorage.getItem('dimotc_name');
-        let savedWa = localStorage.getItem('dimotc_wa');
 
-        if(savedName && savedWa) {
-            document.getElementById('welcomeUserText').innerText = "Halo, " + savedName + "!";
-            document.getElementById('profileName').innerText = savedName;
-            document.getElementById('profileWa').innerText = "No WA: " + savedWa;
+    loadLastOrder();
 
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('mainAppContainer').style.display = 'flex';
-            document.getElementById('bottomNavMenu').style.display = 'flex';
+};
+
+
+/* =====================================================
+   SWITCH TAB
+===================================================== */
+
+function switchTab(
+    tabName,
+    element
+) {
+
+    document
+        .querySelectorAll('.page-content')
+        .forEach(el =>
+            el.classList.remove('active')
+        );
+
+
+    document
+        .querySelectorAll('.nav-item')
+        .forEach(el =>
+            el.classList.remove('active')
+        );
+
+
+    document.getElementById(
+        'page-' + tabName
+    ).classList.add('active');
+
+
+    element.classList.add('active');
+
+}
+
+
+/* =====================================================
+   UPDATE FORM BELI
+===================================================== */
+
+function updateBuyForm() {
+
+    const service =
+        document.getElementById(
+            'buyService'
+        ).value;
+
+
+    const cryptoFields =
+        document.getElementById(
+            'cryptoFields'
+        );
+
+
+    const generalDetail =
+        document.getElementById(
+            'generalDetail'
+        );
+
+
+    const isCrypto =
+        service === 'Beli USDT' ||
+        service === 'Beli BTC' ||
+        service === 'Beli ETH';
+
+
+    if (isCrypto) {
+
+        cryptoFields.style.display =
+            'block';
+
+        generalDetail.style.display =
+            'none';
+
+        document.getElementById(
+            'buyAmount'
+        ).required = true;
+
+        document.getElementById(
+            'walletAddress'
+        ).required = true;
+
+    } else {
+
+        cryptoFields.style.display =
+            'none';
+
+        generalDetail.style.display =
+            'flex';
+
+        document.getElementById(
+            'buyAmount'
+        ).required = false;
+
+        document.getElementById(
+            'walletAddress'
+        ).required = false;
+
+    }
+
+}
+
+
+/* =====================================================
+   PAYMENT METHOD
+===================================================== */
+
+function selectPayMethod(
+    method,
+    button
+) {
+
+    document
+        .querySelectorAll('.pay-btn')
+        .forEach(btn =>
+            btn.classList.remove('selected')
+        );
+
+
+    button.classList.add('selected');
+
+
+    selectedPaymentMethod =
+        method;
+
+
+    const qrisBox =
+        document.getElementById(
+            'qrisModalBox'
+        );
+
+
+    if (
+        method.includes('QRIS')
+    ) {
+
+        qrisBox.style.display =
+            'flex';
+
+    } else {
+
+        qrisBox.style.display =
+            'none';
+
+    }
+
+
+    showToast(
+        'Metode dipilih: ' + method
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(msg) {
+
+    const toast =
+        document.getElementById(
+            'toast'
+        );
+
+
+    toast.innerText =
+        msg;
+
+
+    toast.className =
+        'show';
+
+
+    setTimeout(() => {
+
+        toast.className = '';
+
+    }, 2500);
+
+}
+
+
+/* =====================================================
+   PROCESS CHECKOUT
+===================================================== */
+
+function processInAppCheckout(
+    event,
+    type
+) {
+
+    event.preventDefault();
+
+
+    let service = "";
+
+    let detail = "";
+
+    let network = "-";
+
+    let wallet = "-";
+
+    let destination = "-";
+
+
+    const customerName =
+        localStorage.getItem(
+            'dimotc_name'
+        ) || "-";
+
+
+    const customerWa =
+        localStorage.getItem(
+            'dimotc_wa'
+        ) || "-";
+
+
+    /* ================= BELI ================= */
+
+    if (type === 'BELI') {
+
+        service =
+            document.getElementById(
+                'buyService'
+            ).value;
+
+
+        if (!selectedPaymentMethod) {
+
+            alert(
+                '⚠️ Silakan pilih metode pembayaran terlebih dahulu!'
+            );
+
+            return;
+
         }
+
+
+        const isCrypto =
+            service === 'Beli USDT' ||
+            service === 'Beli BTC' ||
+            service === 'Beli ETH';
+
+
+        if (isCrypto) {
+
+            const amount =
+                document.getElementById(
+                    'buyAmount'
+                ).value;
+
+
+            network =
+                document.getElementById(
+                    'buyNetwork'
+                ).value;
+
+
+            wallet =
+                document.getElementById(
+                    'walletAddress'
+                ).value.trim();
+
+
+            if (
+                !amount ||
+                !wallet
+            ) {
+
+                alert(
+                    '⚠️ Nominal dan alamat wallet wajib diisi!'
+                );
+
+                return;
+
+            }
+
+
+            detail =
+                'Rp ' +
+                Number(amount)
+                    .toLocaleString('id-ID');
+
+        } else {
+
+            detail =
+                document.getElementById(
+                    'buyDetail'
+                ).value.trim();
+
+
+            if (!detail) {
+
+                alert(
+                    '⚠️ Detail / nominal wajib diisi!'
+                );
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    /* ================= JUAL ================= */
+
+    else {
+
+        service =
+            document.getElementById(
+                'sellService'
+            ).value;
+
+
+        detail =
+            document.getElementById(
+                'sellDetail'
+            ).value.trim();
+
+
+        destination =
+            document.getElementById(
+                'sellDestination'
+            ).value.trim();
+
+
+        if (
+            !detail ||
+            !destination
+        ) {
+
+            alert(
+                '⚠️ Semua data penjualan wajib diisi!'
+            );
+
+            return;
+
+        }
+
+        selectedPaymentMethod =
+            "Transfer ke Rekening/E-Wallet Pelanggan";
+
+    }
+
+
+    /* ================= ORDER NUMBER ================= */
+
+    const randomOrderNo =
+        "OTC-" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
+
+
+    /* ================= ORDER DATA ================= */
+
+    const orderData = {
+
+        id:
+            randomOrderNo,
+
+        name:
+            customerName,
+
+        whatsapp:
+            customerWa,
+
+        type:
+            type,
+
+        service:
+            service,
+
+        detail:
+            detail,
+
+        network:
+            network,
+
+        wallet:
+            wallet,
+
+        destination:
+            destination,
+
+        payment:
+            selectedPaymentMethod,
+
+        status:
+            "Menunggu Pembayaran",
+
+        time:
+            new Date()
+                .toLocaleString('id-ID')
+
     };
 
-    // Pindah Menu (Tabs)
-    function switchTab(tabName, element) {
-        document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
-        document.getElementById('page-' + tabName).classList.add('active');
-        element.classList.add('active');
+    /* ================= SAVE ================= */
+
+    localStorage.setItem(
+        'dimotc_last_order',
+        JSON.stringify(orderData)
+    );
+
+
+    /* ================= INVOICE ================= */
+
+    document.getElementById(
+        'invId'
+    ).innerText =
+        randomOrderNo;
+
+
+    document.getElementById(
+        'invService'
+    ).innerText =
+        service;
+
+
+    document.getElementById(
+        'invDetail'
+    ).innerText =
+        detail;
+
+
+    document.getElementById(
+        'invNetwork'
+    ).innerText =
+        network;
+
+
+    document.getElementById(
+        'invWallet'
+    ).innerText =
+        wallet;
+
+
+    document.getElementById(
+        'invPay'
+    ).innerText =
+        selectedPaymentMethod;
+
+
+    /* ================= WALLET ROW ================= */
+
+    const walletRow =
+        document.getElementById(
+            'invWalletRow'
+        );
+
+
+    const networkRow =
+        document.getElementById(
+            'invNetworkRow'
+        );
+
+
+    if (
+        wallet === "-"
+    ) {
+
+        walletRow.style.display =
+            'none';
+
+        networkRow.style.display =
+            'none';
+
+    } else {
+
+        walletRow.style.display =
+            'block';
+
+        networkRow.style.display =
+            'block';
+
     }
 
-    // Pilih Metode Pembayaran
-    let selectedPaymentMethod = "";
-    function selectPayMethod(method) {
-        document.querySelectorAll('.pay-btn').forEach(btn => btn.classList.remove('selected'));
-        event.target.classList.add('selected');
-        selectedPaymentMethod = method;
 
-        let qrisBox = document.getElementById('qrisModalBox');
-        if(method.includes('QRIS')) {
-            qrisBox.style.display = 'flex';
-        } else {
-            qrisBox.style.display = 'none';
-        }
-        showToast('Metode dipilih: ' + method);
+    /* ================= WHATSAPP MESSAGE ================= */
+
+    let message = "";
+
+    message +=
+        "🔔 ORDER BARU DIMOTC\n\n";
+
+    message +=
+        "🆔 No. Order: " +
+        randomOrderNo +
+        "\n\n";
+
+    message +=
+        "👤 Nama: " +
+        customerName +
+        "\n";
+
+    message +=
+        "📱 WhatsApp: " +
+        customerWa +
+        "\n\n";
+
+    message +=
+        "🪙 Layanan: " +
+        service +
+        "\n";
+
+    message +=
+        "💵 Nominal: " +
+        detail +
+        "\n";
+
+    if (
+        network !== "-"
+    ) {
+
+        message +=
+            "🌐 Jaringan: " +
+            network +
+            "\n";
+
     }
 
-    // Toast Alert Helper
-    function showToast(msg) {
-        let t = document.getElementById('toast');
-        t.innerText = msg;
-        t.className = "show";
-        setTimeout(() => t.className = "", 2500);
+
+    if (
+        wallet !== "-"
+    ) {
+
+        message +=
+            "👛 Wallet Penerima:\n" +
+            wallet +
+            "\n";
+
     }
 
-    // Proses Transaksi Sepenuhnya di Dalam Web (Memunculkan Struk Nota)
-    function processInAppCheckout(event, type) {
-        event.preventDefault();
-        let service = "", detail = "";
 
-        if(type === 'BELI') {
-            service = document.getElementById('buyService').value;
-            detail = document.getElementById('buyDetail').value;
-            if(!selectedPaymentMethod) {
-                alert('⚠️ Silakan pilih metode pembayaran terlebih dahulu!');
-                return;
-            }
-        } else {
-            service = document.getElementById('sellService').value;
-            detail = document.getElementById('sellDetail').value;
-            selectedPaymentMethod = "Transfer ke Rekening Pengguna";
-        }
+    if (
+        destination !== "-"
+    ) {
 
-        let randomOrderNo = "OTC-" + Math.floor(100000 + Math.random() * 900000);
+        message +=
+            "🏦 Tujuan Dana:\n" +
+            destination +
+            "\n";
 
-        // Isi Nota Digital
-        document.getElementById('invId').innerText = randomOrderNo;
-        document.getElementById('invService').innerText = service;
-        document.getElementById('invDetail').innerText = detail;
-        document.getElementById('invPay').innerText = selectedPaymentMethod;
-
-        // Munculkan Struk di layar
-        document.getElementById('invoiceModal').style.display = 'flex';
     }
 
-    // Tutup Nota
-    function closeInvoice() {
-        document.getElementById('invoiceModal').style.display = 'none';
-        showToast('Pesanan berhasil dicatat!');
+
+    message +=
+        "\n💳 Pembayaran: " +
+        selectedPaymentMethod +
+        "\n\n";
+
+    message +=
+        "⏳ Status: Menunggu Pembayaran";
+
+
+    currentOrderMessage =
+        message;
+
+
+    /* ================= SHOW INVOICE ================= */
+
+    document.getElementById(
+        'invoiceModal'
+    ).style.display =
+        'flex';
+
+
+    loadLastOrder();
+
+}
+
+
+/* =====================================================
+   SEND ORDER TO WHATSAPP
+===================================================== */
+
+function sendOrderToWhatsApp() {
+
+    if (!currentOrderMessage) {
+
+        alert(
+            'Tidak ada order yang bisa dikirim.'
+        );
+
+        return;
+
     }
 
-    // Tarik Saldo Handler (Min 10k)
-    function withdrawBalance() {
-        let currentBal = 0;
-        if(currentBal < 10000) {
-            alert('⚠️ Saldo Anda belum mencukupi! Minimal penarikan adalah Rp 10.000.');
-        } else {
-            alert('Form penarikan saldo diproses.');
-        }
+
+    /*
+       NOMOR WHATSAPP ADMIN DIMOTC
+
+       6289657445858
+    */
+
+    const adminNumber =
+        "6289657445858";
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        adminNumber +
+        "?text=" +
+        encodeURIComponent(
+            currentOrderMessage
+        );
+
+
+    window.open(
+        whatsappURL,
+        '_blank'
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE INVOICE
+===================================================== */
+
+function closeInvoice() {
+
+    document.getElementById(
+        'invoiceModal'
+    ).style.display =
+        'none';
+
+
+    showToast(
+        'Pesanan berhasil dicatat!'
+    );
+
+}
+
+
+/* =====================================================
+   LOAD LAST ORDER
+===================================================== */
+
+function loadLastOrder() {
+
+    const raw =
+        localStorage.getItem(
+            'dimotc_last_order'
+        );
+
+
+    const box =
+        document.getElementById(
+            'lastOrderBox'
+        );
+
+
+    if (
+        !raw
+    ) {
+
+        box.innerHTML =
+            'Belum ada transaksi.';
+
+        return;
+
     }
+
+
+    try {
+
+        const order =
+            JSON.parse(raw);
+
+
+        box.innerHTML = `
+
+            <b>🆔 ${escapeHTML(order.id)}</b>
+
+            <br>
+
+            🪙 ${escapeHTML(order.service)}
+
+            <br>
+
+            💵 ${escapeHTML(order.detail)}
+
+            <br>
+
+            🌐 ${escapeHTML(order.network)}
+
+            <br>
+
+            <span style="color:#f59e0b;font-weight:700;">
+                ⏳ ${escapeHTML(order.status)}
+            </span>
+
+            <br>
+
+            <small style="color:#94a3b8;">
+                ${escapeHTML(order.time)}
+            </small>
+
+        `;
+
+    } catch (error) {
+
+        box.innerText =
+            'Data order tidak dapat dibaca.';
+
+    }
+
+}
+
+
+/* =====================================================
+   SECURITY HELPER
+===================================================== */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement(
+            'div'
+        );
+
+    div.textContent =
+        value == null
+            ? ''
+            : String(value);
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   WITHDRAW
+===================================================== */
+
+function withdrawBalance() {
+
+    const currentBal = 0;
+
+
+    if (
+        currentBal < 10000
+    ) {
+
+        alert(
+            '⚠️ Saldo Anda belum mencukupi! Minimal penarikan adalah Rp 10.000.'
+        );
+
+    } else {
+
+        alert(
+            'Form penarikan saldo diproses.'
+        );
+
+    }
+
+}
+
 </script>
 
 </body>
