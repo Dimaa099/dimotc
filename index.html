@@ -48,7 +48,7 @@
             border-radius: 12px;
             padding: 12px;
             position: fixed;
-            z-index: 9999;
+            z-index: 99999;
             left: 50%;
             bottom: 90px;
             transform: translateX(-50%);
@@ -61,8 +61,8 @@
             bottom: 100px;
         }
 
-        /* SPLASH SCREEN ANIMASI PEMBUKA */
-        #splashScreen {
+        /* HALAMAN PENDAFTARAN / LOGIN AWAL */
+        #authScreen {
             position: fixed;
             top: 0;
             left: 0;
@@ -74,27 +74,42 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: opacity 0.5s ease;
+            padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .splash-logo {
-            width: 85px;
-            height: 85px;
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            animation: scaleIn 0.4s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .auth-logo {
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple));
-            border-radius: 22px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             color: white;
-            box-shadow: 0 0 35px rgba(0, 242, 254, 0.6);
-            animation: pulseLogo 1.5s infinite alternate;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(0.9); box-shadow: 0 0 15px rgba(0,242,254,0.4); }
-            100% { transform: scale(1.1); box-shadow: 0 0 40px rgba(0,242,254,0.9); }
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
         }
 
         .container {
@@ -106,7 +121,7 @@
             padding: 16px;
         }
 
-        /* HALAMAN (TABS) */
+        /* HALAMAN UTAMA (TABS) */
         .page-content {
             display: none;
             animation: fadeIn 0.3s ease-in-out;
@@ -174,7 +189,7 @@
             gap: 8px;
         }
 
-        /* KASIR SAMBUTAN BANNER */
+        /* KASIR BANNER */
         .cashier-banner {
             background: linear-gradient(135deg, rgba(127, 0, 255, 0.25), rgba(0, 242, 254, 0.15));
             border: 1px dashed var(--accent-neon);
@@ -274,7 +289,7 @@
             box-shadow: 0 0 10px rgba(0,242,254,0.2);
         }
 
-        /* KOTAK POPUP QRIS HALUS */
+        /* KOTAK QRIS */
         #qrisModalBox {
             display: none;
             margin-top: 10px;
@@ -299,6 +314,33 @@
             background: white;
             padding: 6px;
             border-radius: 10px;
+        }
+
+        /* STRUK / NOTA DIGITAL DI DALAM WEB */
+        #invoiceModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(7, 9, 19, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .invoice-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-neon);
+            border-radius: 20px;
+            padding: 22px;
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,242,254,0.3);
+            animation: scaleIn 0.3s ease-out;
         }
 
         /* FORM INPUT */
@@ -330,6 +372,7 @@
             cursor: pointer;
             box-shadow: 0 0 15px rgba(0,242,254,0.3);
             margin-top: 4px;
+            width: 100%;
         }
         .submit-btn:active { transform: scale(0.97); }
     </style>
@@ -339,13 +382,51 @@
 <!-- TOAST ALERT -->
 <div id="toast">Berhasil!</div>
 
-<!-- SPLASH SCREEN -->
-<div id="splashScreen">
-    <div class="splash-logo">D</div>
-    <p style="margin-top: 15px; font-weight: 700; color: var(--accent-neon); letter-spacing: 1px;">DIMOTC SUPER APP</p>
+<!-- HALAMAN PENDAFTARAN / LOGIN WAJIB DI AWAL -->
+<div id="authScreen">
+    <div class="auth-card">
+        <div class="auth-logo">D</div>
+        <div style="text-align: center;">
+            <h2 style="font-size: 1.2rem; font-weight: 700;">Selamat Datang di DimOTC</h2>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Silakan masukkan data diri Anda untuk masuk ke aplikasi.</p>
+        </div>
+
+        <form onsubmit="handleRegister(event)" style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-group">
+                <label class="form-label">Nama Lengkap</label>
+                <input type="text" id="regName" class="form-input" placeholder="Contoh: Budi Santoso" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nomor WhatsApp</label>
+                <input type="tel" id="regWa" class="form-input" placeholder="Contoh: 0896xxxxxxxx" required>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top: 6px;">🚀 MASUK KE APLIKASI</button>
+        </form>
+    </div>
 </div>
 
-<div class="container">
+<!-- STRUK / NOTA DIGITAL DI DALAM WEB -->
+<div id="invoiceModal">
+    <div class="invoice-card">
+        <div style="text-align: center; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 10px;">
+            <h3 style="color: var(--accent-neon); font-size: 1.1rem;">🧾 NOTA TRANSAKSI DIMOTC</h3>
+            <p style="font-size: 0.65rem; color: var(--text-muted);">Pesanan berhasil dibuat di dalam sistem</p>
+        </div>
+        <div style="font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px;">
+            <div><b>No. Order:</b> <span id="invId">-</span></div>
+            <div><b>Layanan:</b> <span id="invService">-</span></div>
+            <div><b>Detail:</b> <span id="invDetail">-</span></div>
+            <div><b>Pembayaran:</b> <span id="invPay">-</span></div>
+            <div><b>Status:</b> <span style="color: #f59e0b; font-weight: bold;">⏳ Menunggu Pembayaran</span></div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; font-size: 0.7rem; color: var(--text-muted); line-height: 1.3;">
+            Silakan lakukan transfer sesuai metode yang dipilih. Saldo/aset akan diproses otomatis oleh kasir setelah konfirmasi.
+        </div>
+        <button type="button" onclick="closeInvoice()" class="submit-btn" style="background: #34d399; color: #070913;">SELESAI / TUTUP</button>
+    </div>
+</div>
+
+<div class="container" id="mainAppContainer" style="display: none;">
 
     <!-- HEADER GLOBAL -->
     <div class="header">
@@ -363,11 +444,11 @@
 
     <!-- ================= MENU 1: BERANDA ================= -->
     <div id="page-home" class="page-content active">
-        <!-- Kasir Sambutan -->
+        <!-- Kasir Banner -->
         <div class="cashier-banner">
             <div class="cashier-avatar">👩‍💼</div>
             <div>
-                <h3 style="font-size: 0.95rem; font-weight: 700;">Halo, Selamat Datang!</h3>
+                <h3 style="font-size: 0.95rem; font-weight: 700;" id="welcomeUserText">Halo, Pengguna!</h3>
                 <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; margin-top: 2px;">Kasir DimOTC siap melayani transaksi dan penukaran aset Anda dengan cepat & aman.</p>
             </div>
         </div>
@@ -393,7 +474,7 @@
     <div id="page-buy" class="page-content">
         <div class="card-box">
             <div class="section-title">🛒 Form Pembelian Aset & Layanan</div>
-            <form onsubmit="sendCheckout(event, 'BELI')">
+            <form onsubmit="processInAppCheckout(event, 'BELI')">
                 <div class="form-group">
                     <label class="form-label">Pilih Layanan</label>
                     <select id="buyService" class="form-select" required>
@@ -418,18 +499,14 @@
                     </div>
                 </div>
 
-                <!-- Kotak QRIS Interaktif (Muncul halus saat diklik) -->
+                <!-- Kotak QRIS Interaktif -->
                 <div id="qrisModalBox">
                     <img src="IMG-20260717-WA0248(1).jpg" alt="QRIS DimOTC">
                     <span style="font-size: 0.75rem; font-weight: 600;">Scan QRIS All Payment (Toko Kelontong)</span>
                     <span style="font-size: 0.65rem; color: var(--text-muted);">NMID: ID1025456700786</span>
                 </div>
 
-                <div class="form-group" style="margin-top: 10px;">
-                    <label class="form-label">Nomor WhatsApp Anda</label>
-                    <input type="tel" id="buyWa" class="form-input" placeholder="0896xxxxxxxx" required>
-                </div>
-                <button type="submit" class="submit-btn">KIRIM PESANAN KE WHATSAPP</button>
+                <button type="submit" class="submit-btn" style="margin-top: 10px;">PROSES PESANAN SEKARANG</button>
             </form>
         </div>
     </div>
@@ -438,7 +515,7 @@
     <div id="page-sell" class="page-content">
         <div class="card-box">
             <div class="section-title">💸 Form Penjualan / Convert Saldo</div>
-            <form onsubmit="sendCheckout(event, 'JUAL')">
+            <form onsubmit="processInAppCheckout(event, 'JUAL')">
                 <div class="form-group">
                     <label class="form-label">Jenis Saldo yang Dijual</label>
                     <select id="sellService" class="form-select" required>
@@ -451,40 +528,43 @@
                     <label class="form-label">Jumlah / Nominal</label>
                     <input type="text" id="sellDetail" class="form-input" placeholder="Contoh: Jual $20 PayPal / Saldo" required>
                 </div>
-                <div class="form-group" style="margin-top: 10px;">
-                    <label class="form-label">Nomor WhatsApp Anda</label>
-                    <input type="tel" id="sellWa" class="form-input" placeholder="0896xxxxxxxx" required>
-                </div>
-                <button type="submit" class="submit-btn">PROSES PENJUALAN</button>
+                <button type="submit" class="submit-btn" style="margin-top: 10px;">PROSES PENJUALAN</button>
             </form>
         </div>
     </div>
 
-    <!-- ================= MENU 4: PROFIL & SALDO ================= -->
+    <!-- ================= MENU 4: PROFIL & BANTUAN CS ================= -->
     <div id="page-profile" class="page-content">
         <div class="card-box" style="align-items: center; text-align: center;">
             <div style="width: 65px; height: 65px; background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; color: white; box-shadow: 0 0 20px rgba(0,242,254,0.4);">D</div>
             <div>
-                <h3 style="font-size: 1.05rem; font-weight: 700;">Member DimOTC</h3>
-                <p style="font-size: 0.7rem; color: var(--text-muted);">Status Akun: Terverifikasi Aktif</p>
+                <h3 id="profileName" style="font-size: 1.05rem; font-weight: 700;">Member DimOTC</h3>
+                <p id="profileWa" style="font-size: 0.7rem; color: var(--text-muted);">No WA: -</p>
             </div>
             
             <div style="width: 100%; background: rgba(0,242,254,0.06); border: 1px solid var(--border-glow); border-radius: 16px; padding: 16px; margin-top: 6px;">
                 <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">SALDO HADIAH ANDA</span>
                 <h2 id="userBalance" style="font-size: 1.8rem; color: var(--accent-neon); margin-top: 4px; font-weight: 800;">Rp 0</h2>
-                <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">Dapatkan saldo dari event & Lucky Spin!</p>
+                <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">Minimal penarikan saldo adalah Rp 10.000</p>
             </div>
 
-            <button type="button" onclick="withdrawBalance()" class="submit-btn" style="width: 100%; background: linear-gradient(135deg, #34d399, #059669); color: white; box-shadow: 0 0 15px rgba(52,211,153,0.3);">
+            <button type="button" onclick="withdrawBalance()" class="submit-btn" style="background: linear-gradient(135deg, #34d399, #059669); color: white; box-shadow: 0 0 15px rgba(52,211,153,0.3);">
                 💳 TARIK SALDO (Min. Rp 10.000)
             </button>
+
+            <!-- Tombol Darurat / Kendala ke WhatsApp Admin -->
+            <a href="https://wa.me/6289657445858?text=Halo%20Admin%20DimOTC%20saya%20ada%20kendala%20transaksi" target="_blank" rel="noopener" style="width: 100%; text-decoration: none; margin-top: 4px;">
+                <button type="button" class="submit-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff;">
+                    💬 HUBUNGI CS / KENDALA (WhatsApp)
+                </button>
+            </a>
         </div>
     </div>
 
 </div>
 
 <!-- BOTTOM NAVIGATION -->
-<div class="bottom-nav">
+<div class="bottom-nav" id="bottomNavMenu" style="display: none;">
     <button class="nav-item active" onclick="switchTab('home', this)">
         <span class="nav-icon">🏠</span>
         Beranda
@@ -504,14 +584,47 @@
 </div>
 
 <script>
-    // Hilangkan Splash Screen setelah 1.5 detik
-    setTimeout(() => {
-        let splash = document.getElementById('splashScreen');
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 500);
-    }, 1500);
+    // Fungsi Registrasi Awal Pengguna
+    function handleRegister(event) {
+        event.preventDefault();
+        let name = document.getElementById('regName').value;
+        let wa = document.getElementById('regWa').value;
 
-    // Fungsi Pindah Menu (Tabs)
+        localStorage.setItem('dimotc_name', name);
+        localStorage.setItem('dimotc_wa', wa);
+
+        document.getElementById('welcomeUserText').innerText = "Halo, " + name + "!";
+        document.getElementById('profileName').innerText = name;
+        document.getElementById('profileWa').innerText = "No WA: " + wa;
+
+        let authScreen = document.getElementById('authScreen');
+        authScreen.style.opacity = '0';
+        authScreen.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            authScreen.style.display = 'none';
+            document.getElementById('mainAppContainer').style.display = 'flex';
+            document.getElementById('bottomNavMenu').style.display = 'flex';
+            showToast('Selamat datang, ' + name + '!');
+        }, 400);
+    }
+
+    // Cek memori lokal saat pertama buka
+    window.onload = function() {
+        let savedName = localStorage.getItem('dimotc_name');
+        let savedWa = localStorage.getItem('dimotc_wa');
+
+        if(savedName && savedWa) {
+            document.getElementById('welcomeUserText').innerText = "Halo, " + savedName + "!";
+            document.getElementById('profileName').innerText = savedName;
+            document.getElementById('profileWa').innerText = "No WA: " + savedWa;
+
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('mainAppContainer').style.display = 'flex';
+            document.getElementById('bottomNavMenu').style.display = 'flex';
+        }
+    };
+
+    // Pindah Menu (Tabs)
     function switchTab(tabName, element) {
         document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -520,7 +633,7 @@
         element.classList.add('active');
     }
 
-    // Fungsi Pilih Metode Pembayaran & Munculkan QRIS Halus
+    // Pilih Metode Pembayaran
     let selectedPaymentMethod = "";
     function selectPayMethod(method) {
         document.querySelectorAll('.pay-btn').forEach(btn => btn.classList.remove('selected'));
@@ -544,37 +657,45 @@
         setTimeout(() => t.className = "", 2500);
     }
 
-    // Kirim Pesanan ke WhatsApp Admin
-    function sendCheckout(event, type) {
+    // Proses Transaksi Sepenuhnya di Dalam Web (Memunculkan Struk Nota)
+    function processInAppCheckout(event, type) {
         event.preventDefault();
-        let adminPhone = "6289657445858";
-        let message = "";
+        let service = "", detail = "";
 
         if(type === 'BELI') {
-            let service = document.getElementById('buyService').value;
-            let detail = document.getElementById('buyDetail').value;
-            let wa = document.getElementById('buyWa').value;
-            
+            service = document.getElementById('buyService').value;
+            detail = document.getElementById('buyDetail').value;
             if(!selectedPaymentMethod) {
                 alert('⚠️ Silakan pilih metode pembayaran terlebih dahulu!');
                 return;
             }
-
-            message = `Halo Kasir DimOTC 💎,%0A%0ASaya ingin melakukan PEMBELIAN:%0A*Layanan:* ${service}%0A*Detail:* ${detail}%0A*Metode Bayar:* ${selectedPaymentMethod}%0A*No WA Saya:* ${wa}%0A%0AMohon segera diproses ya!`;
         } else {
-            let service = document.getElementById('sellService').value;
-            let detail = document.getElementById('sellDetail').value;
-            let wa = document.getElementById('sellWa').value;
-
-            message = `Halo Kasir DimOTC 💎,%0A%0ASaya ingin melakukan PENJUALAN/CONVERT:%0A*Layanan:* ${service}%0A*Detail:* ${detail}%0A*No WA Saya:* ${wa}%0A%0AMohon segera diproses ya!`;
+            service = document.getElementById('sellService').value;
+            detail = document.getElementById('sellDetail').value;
+            selectedPaymentMethod = "Transfer ke Rekening Pengguna";
         }
 
-        window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
+        let randomOrderNo = "OTC-" + Math.floor(100000 + Math.random() * 900000);
+
+        // Isi Nota Digital
+        document.getElementById('invId').innerText = randomOrderNo;
+        document.getElementById('invService').innerText = service;
+        document.getElementById('invDetail').innerText = detail;
+        document.getElementById('invPay').innerText = selectedPaymentMethod;
+
+        // Munculkan Struk di layar
+        document.getElementById('invoiceModal').style.display = 'flex';
+    }
+
+    // Tutup Nota
+    function closeInvoice() {
+        document.getElementById('invoiceModal').style.display = 'none';
+        showToast('Pesanan berhasil dicatat!');
     }
 
     // Tarik Saldo Handler (Min 10k)
     function withdrawBalance() {
-        let currentBal = 0; // Saldo awal simulasi
+        let currentBal = 0;
         if(currentBal < 10000) {
             alert('⚠️ Saldo Anda belum mencukupi! Minimal penarikan adalah Rp 10.000.');
         } else {
