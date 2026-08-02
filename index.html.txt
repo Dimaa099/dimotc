@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DIMOTC | Trusted Digital Exchange</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#07120c;
+color:white;
+overflow-x:hidden;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+position:fixed;
+width:100%;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(10px);
+z-index:100;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+transition:.3s;
+}
+
+nav a:hover{
+color:#00ff88;
+}
+
+.hero{
+
+min-height:100vh;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
+padding:120px 20px;
+
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1500&q=80");
+
+background-size:cover;
+
+}
+
+.hero h1{
+
+font-size:60px;
+
+color:#00ff88;
+
+}
+
+.hero p{
+
+margin-top:20px;
+
+font-size:20px;
+
+opacity:.9;
+
+}
+
+.btn{
+
+margin-top:40px;
+
+display:inline-block;
+
+padding:16px 40px;
+
+background:#00ff88;
+
+color:black;
+
+font-weight:bold;
+
+border-radius:12px;
+
+text-decoration:none;
+
+}
+
+.section{
+
+padding:90px 8%;
+
+}
+
+.title{
+
+text-align:center;
+
+font-size:38px;
+
+margin-bottom:50px;
+
+color:#00ff88;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:#101b15;
+
+padding:30px;
+
+border-radius:18px;
+
+border:1px solid rgba(0,255,136,.2);
+
+transition:.4s;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+border-color:#00ff88;
+
+}
+
+.card h3{
+
+margin-bottom:15px;
+
+color:#00ff88;
+
+}
+
+.contact{
+
+text-align:center;
+
+}
+
+.contact p{
+
+margin:10px 0;
+
+font-size:18px;
+
+}
+
+footer{
+
+padding:30px;
+
+text-align:center;
+
+background:#040804;
+
+margin-top:50px;
+
+}
+
+.whatsapp{
+
+position:fixed;
+
+right:20px;
+
+bottom:20px;
+
+background:#25D366;
+
+padding:18px 25px;
+
+border-radius:50px;
+
+color:white;
+
+text-decoration:none;
+
+font-weight:bold;
+
+box-shadow:0 0 25px #25D366;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+DIMOTC
+
+</div>
+
+<nav>
+
+<a href="#">Home</a>
+
+<a href="#service">Services</a>
+
+<a href="#contact">Contact</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div>
+
+<h1>DIMOTC</h1>
+
+<p>
+
+Trusted Digital Exchange
+
+<br><br>
+
+Buy Crypto • Sell Crypto
+
+<br>
+
+Convert E-Wallet
+
+<br>
+
+Convert Pulsa All Operator
+
+<br>
+
+Buy & Sell PayPal
+
+<br>
+
+Buy & Sell Chip HGI
+
+</p>
+
+<a class="btn"
+
+href="https://wa.me/6289657445858">
+
+ORDER SEKARANG
+
+</a>
+
+</div>
+
+</section>
+
+<section class="section" id="service">
+
+<h2 class="title">
+
+Layanan Kami
+
+</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Buy Crypto</h3>
+
+BTC • ETH • SOL • BNB • SUI • XRP
+
+</div>
+
+<div class="card">
+
+<h3>Sell Crypto</h3>
+
+Harga bersaing & proses cepat.
+
+</div>
+
+<div class="card">
+
+<h3>Convert E-Wallet</h3>
+
+DANA • OVO • GoPay • ShopeePay
+
+</div>
+
+<div class="card">
+
+<h3>Convert Pulsa</h3>
+
+Telkomsel • XL • Axis • Indosat • Tri
+
+</div>
+
+<div class="card">
+
+<h3>PayPal</h3>
+
+Buy & Sell Balance PayPal.
+
+</div>
+
+<div class="card">
+
+<h3>Chip HGI</h3>
+
+Fast Trade & Trusted.
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section contact" id="contact">
+
+<h2 class="title">
+
+Hubungi Kami
+
+</h2>
+
+<p>
+
+📱 WhatsApp
+
+<br>
+
+089657445858
+
+</p>
+
+<p>
+
+Telegram
+
+<br>
+
+@Putriamelia991
+
+</p>
+
+<p>
+
+X
+
+<br>
+
+@LukmanA82682784
+
+</p>
+
+</section>
+
+<footer>
+
+© 2026 DIMOTC
+
+</footer>
+
+<a
+
+class="whatsapp"
+
+href="https://wa.me/6289657445858">
+
+WhatsApp
+
+</a>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DIMOTC | Trusted Digital Exchange</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#07120c;
+color:white;
+overflow-x:hidden;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+position:fixed;
+width:100%;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(10px);
+z-index:100;
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#00ff88;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+transition:.3s;
+}
+
+nav a:hover{
+color:#00ff88;
+}
+
+.hero{
+
+min-height:100vh;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
+padding:120px 20px;
+
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1500&q=80");
+
+background-size:cover;
+
+}
+
+.hero h1{
+
+font-size:60px;
+
+color:#00ff88;
+
+}
+
+.hero p{
+
+margin-top:20px;
+
+font-size:20px;
+
+opacity:.9;
+
+}
+
+.btn{
+
+margin-top:40px;
+
+display:inline-block;
+
+padding:16px 40px;
+
+background:#00ff88;
+
+color:black;
+
+font-weight:bold;
+
+border-radius:12px;
+
+text-decoration:none;
+
+}
+
+.section{
+
+padding:90px 8%;
+
+}
+
+.title{
+
+text-align:center;
+
+font-size:38px;
+
+margin-bottom:50px;
+
+color:#00ff88;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:#101b15;
+
+padding:30px;
+
+border-radius:18px;
+
+border:1px solid rgba(0,255,136,.2);
+
+transition:.4s;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+border-color:#00ff88;
+
+}
+
+.card h3{
+
+margin-bottom:15px;
+
+color:#00ff88;
+
+}
+
+.contact{
+
+text-align:center;
+
+}
+
+.contact p{
+
+margin:10px 0;
+
+font-size:18px;
+
+}
+
+footer{
+
+padding:30px;
+
+text-align:center;
+
+background:#040804;
+
+margin-top:50px;
+
+}
+
+.whatsapp{
+
+position:fixed;
+
+right:20px;
+
+bottom:20px;
+
+background:#25D366;
+
+padding:18px 25px;
+
+border-radius:50px;
+
+color:white;
+
+text-decoration:none;
+
+font-weight:bold;
+
+box-shadow:0 0 25px #25D366;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+DIMOTC
+
+</div>
+
+<nav>
+
+<a href="#">Home</a>
+
+<a href="#service">Services</a>
+
+<a href="#contact">Contact</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div>
+
+<h1>DIMOTC</h1>
+
+<p>
+
+Trusted Digital Exchange
+
+<br><br>
+
+Buy Crypto • Sell Crypto
+
+<br>
+
+Convert E-Wallet
+
+<br>
+
+Convert Pulsa All Operator
+
+<br>
+
+Buy & Sell PayPal
+
+<br>
+
+Buy & Sell Chip HGI
+
+</p>
+
+<a class="btn"
+
+href="https://wa.me/6289657445858">
+
+ORDER SEKARANG
+
+</a>
+
+</div>
+
+</section>
+
+<section class="section" id="service">
+
+<h2 class="title">
+
+Layanan Kami
+
+</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Buy Crypto</h3>
+
+BTC • ETH • SOL • BNB • SUI • XRP
+
+</div>
+
+<div class="card">
+
+<h3>Sell Crypto</h3>
+
+Harga bersaing & proses cepat.
+
+</div>
+
+<div class="card">
+
+<h3>Convert E-Wallet</h3>
+
+DANA • OVO • GoPay • ShopeePay
+
+</div>
+
+<div class="card">
+
+<h3>Convert Pulsa</h3>
+
+Telkomsel • XL • Axis • Indosat • Tri
+
+</div>
+
+<div class="card">
+
+<h3>PayPal</h3>
+
+Buy & Sell Balance PayPal.
+
+</div>
+
+<div class="card">
+
+<h3>Chip HGI</h3>
+
+Fast Trade & Trusted.
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section contact" id="contact">
+
+<h2 class="title">
+
+Hubungi Kami
+
+</h2>
+
+<p>
+
+📱 WhatsApp
+
+<br>
+
+089657445858
+
+</p>
+
+<p>
+
+Telegram
+
+<br>
+
+@Putriamelia991
+
+</p>
+
+<p>
+
+X
+
+<br>
+
+@LukmanA82682784
+
+</p>
+
+</section>
+
+<footer>
+
+© 2026 DIMOTC
+
+</footer>
+
+<a
+
+class="whatsapp"
+
+href="https://wa.me/6289657445858">
+
+WhatsApp
+
+</a>
+
+</body>
+
+</html>
