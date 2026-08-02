@@ -1,823 +1,428 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DIMOTC | Trusted Digital Exchange</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
-body{
-background:#07120c;
-color:white;
-overflow-x:hidden;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 8%;
-position:fixed;
-width:100%;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(10px);
-z-index:100;
-}
-
-.logo{
-font-size:34px;
-font-weight:700;
-color:#00ff88;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin-left:25px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#00ff88;
-}
-
-.hero{
-
-min-height:100vh;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-text-align:center;
-
-padding:120px 20px;
-
-background:
-linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
-url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1500&q=80");
-
-background-size:cover;
-
-}
-
-.hero h1{
-
-font-size:60px;
-
-color:#00ff88;
-
-}
-
-.hero p{
-
-margin-top:20px;
-
-font-size:20px;
-
-opacity:.9;
-
-}
-
-.btn{
-
-margin-top:40px;
-
-display:inline-block;
-
-padding:16px 40px;
-
-background:#00ff88;
-
-color:black;
-
-font-weight:bold;
-
-border-radius:12px;
-
-text-decoration:none;
-
-}
-
-.section{
-
-padding:90px 8%;
-
-}
-
-.title{
-
-text-align:center;
-
-font-size:38px;
-
-margin-bottom:50px;
-
-color:#00ff88;
-
-}
-
-.grid{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-gap:25px;
-
-}
-
-.card{
-
-background:#101b15;
-
-padding:30px;
-
-border-radius:18px;
-
-border:1px solid rgba(0,255,136,.2);
-
-transition:.4s;
-
-}
-
-.card:hover{
-
-transform:translateY(-10px);
-
-border-color:#00ff88;
-
-}
-
-.card h3{
-
-margin-bottom:15px;
-
-color:#00ff88;
-
-}
-
-.contact{
-
-text-align:center;
-
-}
-
-.contact p{
-
-margin:10px 0;
-
-font-size:18px;
-
-}
-
-footer{
-
-padding:30px;
-
-text-align:center;
-
-background:#040804;
-
-margin-top:50px;
-
-}
-
-.whatsapp{
-
-position:fixed;
-
-right:20px;
-
-bottom:20px;
-
-background:#25D366;
-
-padding:18px 25px;
-
-border-radius:50px;
-
-color:white;
-
-text-decoration:none;
-
-font-weight:bold;
-
-box-shadow:0 0 25px #25D366;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DimOTC • Mini Exchange Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #070913;
+            --bg-card: rgba(18, 24, 38, 0.7);
+            --border-glow: rgba(0, 242, 254, 0.2);
+            --accent-neon: #00f2fe;
+            --accent-purple: #7f00ff;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 12px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(127, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.1) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 30px;
+        }
+
+        /* TICKER HARGA */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(13, 17, 28, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+
+        .ticker-move {
+            display: inline-block;
+            animation: ticker 25s linear infinite;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        .ticker-item span {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            padding: 14px 18px;
+            border-radius: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-badge {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent-neon), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text p {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #34d399;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* HERO CARD / EXHANGE BOX */
+        .exchange-box {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .exchange-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .rate-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .rate-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px 8px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .rate-card .coin {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .rate-card .price {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-neon);
+            margin-top: 2px;
+        }
+
+        /* MENU GRID LAYANAN */
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .service-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-item:hover {
+            border-color: var(--accent-neon);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.15);
+        }
+
+        .service-icon {
+            font-size: 1.5rem;
+        }
+
+        .service-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .service-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* CTA BUTTON */
+        .cta-btn {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #070913;
+            text-decoration: none;
+            text-align: center;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+            margin-top: 6px;
+        }
+
+        .cta-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* KONTAK & SUPPORT */
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .contact-pill {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .contact-pill:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-neon);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
+<div class="container">
 
-<div class="logo">
+    <!-- TICKER LIVE -->
+    <div class="ticker-wrap">
+        <div class="ticker-move">
+            <div class="ticker-item">BTC/IDR: <span>Rp 1.420.000.000 ↑</span></div>
+            <div class="ticker-item">ETH/IDR: <span>Rp 52.500.000 ↑</span></div>
+            <div class="ticker-item">MATIC/POL: <span>Ready Gas Fee</span></div>
+            <div class="ticker-item">USDT/IDR: <span>Rate Stable 24/7</span></div>
+            <!-- Duplikasi untuk infinite scroll -->
+            <div class="ticker-item">BTC/IDR: <span>Rp 1.420.000.000 ↑</span></div>
+            <div class="ticker-item">ETH/IDR: <span>Rp 52.500.000 ↑</span></div>
+            <div class="ticker-item">MATIC/POL: <span>Ready Gas Fee</span></div>
+            <div class="ticker-item">USDT/IDR: <span>Rate Stable 24/7</span></div>
+        </div>
+    </div>
 
-DIMOTC
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-badge">D</div>
+            <div class="logo-text">
+                <h1>DimOTC</h1>
+                <p>Secure Exchange</p>
+            </div>
+        </div>
+        <div class="status-badge">
+            <div class="pulse-dot"></div>
+            Online 24/7
+        </div>
+    </div>
 
-</div>
+    <!-- QUICK RATE BOX -->
+    <div class="exchange-box">
+        <div class="exchange-title">⚡ Fast Market Rate & Instant Swap</div>
+        <div class="rate-grid">
+            <div class="rate-card">
+                <div class="coin">POL/MATIC</div>
+                <div class="price">Gas Ecer</div>
+            </div>
+            <div class="rate-card">
+                <div class="coin">PAYPAL</div>
+                <div class="price">Auto IDR</div>
+            </div>
+            <div class="rate-card">
+                <div class="coin">E-WALLET</div>
+                <div class="price">Instan</div>
+            </div>
+        </div>
+        
+        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20%F0%9F%92%8E%20saya%20ingin%20transaksi%20sekarang" class="cta-btn" target="_blank" rel="noopener">
+            🚀 MULAI TRANSAKSI SEKARANG
+        </a>
+    </div>
 
-<nav>
+    <!-- LAYANAN UTAMA -->
+    <div class="section-title">✨ Layanan Mini Exchange</div>
+    <div class="services-grid">
+        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20beli%20Kripto%20ecer" class="service-item" target="_blank" rel="noopener">
+            <div class="service-icon">🪙</div>
+            <div class="service-name">Kripto Eceran</div>
+            <div class="service-desc">BTC, ETH, MATIC, BNB & Gas Fee tanpa ribet.</div>
+        </a>
 
-<a href="#">Home</a>
+        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20Convert%20PayPal" class="service-item" target="_blank" rel="noopener">
+            <div class="service-icon">💳</div>
+            <div class="service-name">Convert PayPal</div>
+            <div class="service-desc">Pencairan saldo PayPal ke Rupiah kilat.</div>
+        </a>
 
-<a href="#service">Services</a>
+        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20TopUp%20E-Wallet" class="service-item" target="_blank" rel="noopener">
+            <div class="service-icon">⚡</div>
+            <div class="service-name">Top Up & Pulsa</div>
+            <div class="service-desc">Dana, OVO, Gopay, ShopeePay & All Operator.</div>
+        </a>
 
-<a href="#contact">Contact</a>
+        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20saya%20ingin%20lapor%20kendala%20atau%20bug" class="service-item" target="_blank" rel="noopener">
+            <div class="service-icon">🛡️</div>
+            <div class="service-name">Lapor Bug / CS</div>
+            <div class="service-desc">Pusat bantuan kendala transaksi & keamanan.</div>
+        </a>
+    </div>
 
-</nav>
+    <!-- KONTAK RESMI -->
+    <div class="contact-box">
+        <div class="exchange-title">📞 Saluran Resmi & Pengaduan</div>
+        <div class="contact-links">
+            <a href="https://wa.me/6289657445858" class="contact-pill" target="_blank" rel="noopener">
+                💬 WhatsApp
+            </a>
+            <a href="https://t.me/Putriamelia991" class="contact-pill" target="_blank" rel="noopener">
+                ✈️ Telegram
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100063557010358" class="contact-pill" target="_blank" rel="noopener">
+                📘 Facebook
+            </a>
+        </div>
+    </div>
 
-</header>
-
-<section class="hero">
-
-<div>
-
-<h1>DIMOTC</h1>
-
-<p>
-
-Trusted Digital Exchange
-
-<br><br>
-
-Buy Crypto • Sell Crypto
-
-<br>
-
-Convert E-Wallet
-
-<br>
-
-Convert Pulsa All Operator
-
-<br>
-
-Buy & Sell PayPal
-
-<br>
-
-Buy & Sell Chip HGI
-
-</p>
-
-<a class="btn"
-
-href="https://wa.me/6289657445858">
-
-ORDER SEKARANG
-
-</a>
-
-</div>
-
-</section>
-
-<section class="section" id="service">
-
-<h2 class="title">
-
-Layanan Kami
-
-</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>Buy Crypto</h3>
-
-BTC • ETH • SOL • BNB • SUI • XRP
-
-</div>
-
-<div class="card">
-
-<h3>Sell Crypto</h3>
-
-Harga bersaing & proses cepat.
-
-</div>
-
-<div class="card">
-
-<h3>Convert E-Wallet</h3>
-
-DANA • OVO • GoPay • ShopeePay
-
-</div>
-
-<div class="card">
-
-<h3>Convert Pulsa</h3>
-
-Telkomsel • XL • Axis • Indosat • Tri
-
-</div>
-
-<div class="card">
-
-<h3>PayPal</h3>
-
-Buy & Sell Balance PayPal.
+    <div class="footer">
+        © 2026 DimOTC Platform. All Rights Reserved.
+    </div>
 
 </div>
-
-<div class="card">
-
-<h3>Chip HGI</h3>
-
-Fast Trade & Trusted.
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section contact" id="contact">
-
-<h2 class="title">
-
-Hubungi Kami
-
-</h2>
-
-<p>
-
-📱 WhatsApp
-
-<br>
-
-089657445858
-
-</p>
-
-<p>
-
-Telegram
-
-<br>
-
-@Putriamelia991
-
-</p>
-
-<p>
-
-X
-
-<br>
-
-@LukmanA82682784
-
-</p>
-
-</section>
-
-<footer>
-
-© 2026 DIMOTC
-
-</footer>
-
-<a
-
-class="whatsapp"
-
-href="https://wa.me/6289657445858">
-
-WhatsApp
-
-</a>
 
 </body>
-
-</html><!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DIMOTC | Trusted Digital Exchange</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
-body{
-background:#07120c;
-color:white;
-overflow-x:hidden;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 8%;
-position:fixed;
-width:100%;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(10px);
-z-index:100;
-}
-
-.logo{
-font-size:34px;
-font-weight:700;
-color:#00ff88;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin-left:25px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#00ff88;
-}
-
-.hero{
-
-min-height:100vh;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-text-align:center;
-
-padding:120px 20px;
-
-background:
-linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
-url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1500&q=80");
-
-background-size:cover;
-
-}
-
-.hero h1{
-
-font-size:60px;
-
-color:#00ff88;
-
-}
-
-.hero p{
-
-margin-top:20px;
-
-font-size:20px;
-
-opacity:.9;
-
-}
-
-.btn{
-
-margin-top:40px;
-
-display:inline-block;
-
-padding:16px 40px;
-
-background:#00ff88;
-
-color:black;
-
-font-weight:bold;
-
-border-radius:12px;
-
-text-decoration:none;
-
-}
-
-.section{
-
-padding:90px 8%;
-
-}
-
-.title{
-
-text-align:center;
-
-font-size:38px;
-
-margin-bottom:50px;
-
-color:#00ff88;
-
-}
-
-.grid{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-gap:25px;
-
-}
-
-.card{
-
-background:#101b15;
-
-padding:30px;
-
-border-radius:18px;
-
-border:1px solid rgba(0,255,136,.2);
-
-transition:.4s;
-
-}
-
-.card:hover{
-
-transform:translateY(-10px);
-
-border-color:#00ff88;
-
-}
-
-.card h3{
-
-margin-bottom:15px;
-
-color:#00ff88;
-
-}
-
-.contact{
-
-text-align:center;
-
-}
-
-.contact p{
-
-margin:10px 0;
-
-font-size:18px;
-
-}
-
-footer{
-
-padding:30px;
-
-text-align:center;
-
-background:#040804;
-
-margin-top:50px;
-
-}
-
-.whatsapp{
-
-position:fixed;
-
-right:20px;
-
-bottom:20px;
-
-background:#25D366;
-
-padding:18px 25px;
-
-border-radius:50px;
-
-color:white;
-
-text-decoration:none;
-
-font-weight:bold;
-
-box-shadow:0 0 25px #25D366;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-
-DIMOTC
-
-</div>
-
-<nav>
-
-<a href="#">Home</a>
-
-<a href="#service">Services</a>
-
-<a href="#contact">Contact</a>
-
-</nav>
-
-</header>
-
-<section class="hero">
-
-<div>
-
-<h1>DIMOTC</h1>
-
-<p>
-
-Trusted Digital Exchange
-
-<br><br>
-
-Buy Crypto • Sell Crypto
-
-<br>
-
-Convert E-Wallet
-
-<br>
-
-Convert Pulsa All Operator
-
-<br>
-
-Buy & Sell PayPal
-
-<br>
-
-Buy & Sell Chip HGI
-
-</p>
-
-<a class="btn"
-
-href="https://wa.me/6289657445858">
-
-ORDER SEKARANG
-
-</a>
-
-</div>
-
-</section>
-
-<section class="section" id="service">
-
-<h2 class="title">
-
-Layanan Kami
-
-</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>Buy Crypto</h3>
-
-BTC • ETH • SOL • BNB • SUI • XRP
-
-</div>
-
-<div class="card">
-
-<h3>Sell Crypto</h3>
-
-Harga bersaing & proses cepat.
-
-</div>
-
-<div class="card">
-
-<h3>Convert E-Wallet</h3>
-
-DANA • OVO • GoPay • ShopeePay
-
-</div>
-
-<div class="card">
-
-<h3>Convert Pulsa</h3>
-
-Telkomsel • XL • Axis • Indosat • Tri
-
-</div>
-
-<div class="card">
-
-<h3>PayPal</h3>
-
-Buy & Sell Balance PayPal.
-
-</div>
-
-<div class="card">
-
-<h3>Chip HGI</h3>
-
-Fast Trade & Trusted.
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section contact" id="contact">
-
-<h2 class="title">
-
-Hubungi Kami
-
-</h2>
-
-<p>
-
-📱 WhatsApp
-
-<br>
-
-089657445858
-
-</p>
-
-<p>
-
-Telegram
-
-<br>
-
-@Putriamelia991
-
-</p>
-
-<p>
-
-X
-
-<br>
-
-@LukmanA82682784
-
-</p>
-
-</section>
-
-<footer>
-
-© 2026 DIMOTC
-
-</footer>
-
-<a
-
-class="whatsapp"
-
-href="https://wa.me/6289657445858">
-
-WhatsApp
-
-</a>
-
-</body>
-
 </html>
