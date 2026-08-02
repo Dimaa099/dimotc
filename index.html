@@ -170,14 +170,23 @@
         }
 
         .qris-box {
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(127, 0, 255, 0.05));
+            background: rgba(255, 255, 255, 0.03);
             border: 1px dashed var(--accent-neon);
             border-radius: 12px;
             padding: 12px;
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .qris-img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 8px;
+            background: #fff;
+            padding: 6px;
         }
 
         .qris-text {
@@ -386,6 +395,7 @@
             </div>
         </div>
         <div class="qris-box">
+            <img src="IMG-20260717-WA0248(1).jpg" alt="QRIS DimOTC" class="qris-img">
             <span class="qris-text">⚡ QRIS All Payment (Toko Kelontong)</span>
             <span class="qris-sub">NMID: ID1025456700786 (Scan via QRIS / M-Banking)</span>
         </div>
@@ -422,7 +432,7 @@
         </form>
     </div>
 
-    <!-- FITUR LUCKY SPIN (ROLE / PUTARAN) -->
+    <!-- FITUR LUCKY SPIN -->
     <div class="spin-container">
         <div class="section-title" style="justify-content: center;">🎡 DimOTC Lucky Spin</div>
         <div class="wheel-box" id="spinWheel">
@@ -455,7 +465,6 @@
 </div>
 
 <script>
-    // Fungsi Mengirim Pesanan ke WhatsApp Admin
     function sendOrder(event) {
         event.preventDefault();
         
@@ -463,7 +472,7 @@
         let detail = document.getElementById('orderDetail').value;
         let wa = document.getElementById('userWhatsApp').value;
 
-        let adminPhone = "6289657445858"; // Nomor WhatsApp Admin Anda
+        let adminPhone = "6289657445858";
         
         let message = `Halo Admin DimOTC 💎,%0A%0ASaya ingin melakukan transaksi:%0A*Layanan:* ${service}%0A*Detail:* ${detail}%0A*No WA Saya:* ${wa}%0A%0AMohon segera diproses ya, terima kasih!`;
 
@@ -471,13 +480,11 @@
         window.open(whatsappURL, '_blank');
     }
 
-    // Fungsi Lucky Spin dengan Prioritas Hadiah (Lebih sering Rp 3.000 & Free Transaksi 2x)
     let currentRotation = 0;
     function trySpin() {
         let resultText = document.getElementById('spinResult');
         let wheel = document.getElementById('spinWheel');
 
-        // Daftar hadiah dengan probabilitas (Rp 3k & Fee 2x dibuat lebih banyak muncul)
         let weightedPrizes = [
             "🎉 Selamat! Anda Menang Saldo Rp 3.000!",
             "🎉 Selamat! Anda Menang Saldo Rp 3.000!",
