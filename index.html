@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DimOTC • Mini Exchange Platform</title>
+    <title>DimOTC • Official Exchange & Rewards</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-base: #070913;
-            --bg-card: rgba(18, 24, 38, 0.7);
-            --border-glow: rgba(0, 242, 254, 0.2);
+            --bg-card: rgba(18, 24, 38, 0.85);
+            --border-glow: rgba(0, 242, 254, 0.25);
             --accent-neon: #00f2fe;
             --accent-purple: #7f00ff;
             --text-main: #f8fafc;
@@ -42,39 +42,6 @@
             flex-direction: column;
             gap: 16px;
             padding-bottom: 30px;
-        }
-
-        /* TICKER HARGA */
-        .ticker-wrap {
-            width: 100%;
-            overflow: hidden;
-            background: rgba(13, 17, 28, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
-
-        .ticker-move {
-            display: inline-block;
-            animation: ticker 25s linear infinite;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .ticker-item {
-            display: inline-block;
-            padding: 0 20px;
-        }
-
-        .ticker-item span {
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
         }
 
         /* HEADER */
@@ -150,8 +117,8 @@
             100% { opacity: 1; }
         }
 
-        /* HERO CARD / EXHANGE BOX */
-        .exchange-box {
+        /* CARD BOX */
+        .card-box {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border-glow);
@@ -163,124 +130,190 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .exchange-title {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .rate-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .rate-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 10px 8px;
-            border-radius: 12px;
-            text-align: center;
+        /* PAYMENT ACCOUNTS GRID */
+        .pay-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
         }
 
-        .rate-card .coin {
-            font-size: 0.7rem;
+        .pay-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .pay-name {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .pay-val {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-neon);
+        }
+
+        .qris-box {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(127, 0, 255, 0.05));
+            border: 1px dashed var(--accent-neon);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .qris-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .qris-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* FORM TRANSAKSI */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-weight: 600;
         }
 
-        .rate-card .price {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-neon);
-            margin-top: 2px;
-        }
-
-        /* MENU GRID LAYANAN */
-        .section-title {
-            font-size: 0.9rem;
-            font-weight: 700;
+        .form-input, .form-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
             color: var(--text-main);
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .service-item {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 14px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            font-size: 0.85rem;
+            outline: none;
             transition: 0.2s;
-            text-decoration: none;
-            color: inherit;
         }
 
-        .service-item:hover {
+        .form-input:focus, .form-select:focus {
             border-color: var(--accent-neon);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.15);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
         }
 
-        .service-icon {
-            font-size: 1.5rem;
+        .form-select option {
+            background: #0f172a;
+            color: #fff;
         }
 
-        .service-name {
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        .service-desc {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            line-height: 1.3;
-        }
-
-        /* CTA BUTTON */
-        .cta-btn {
+        .submit-btn {
             background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
             color: #070913;
-            text-decoration: none;
-            text-align: center;
-            padding: 16px;
-            border-radius: 14px;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            cursor: pointer;
             box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             transition: 0.2s;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
-        .cta-btn:active {
+        .submit-btn:active {
             transform: scale(0.97);
         }
 
-        /* KONTAK & SUPPORT */
-        .contact-box {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 14px;
+        /* LUCKY SPIN SECTION */
+        .spin-container {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(127, 0, 255, 0.2), rgba(0, 242, 254, 0.1));
+            border: 1px dashed var(--accent-neon);
+            border-radius: 20px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 12px;
         }
 
+        .wheel-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#7f00ff 0deg 90deg, #00f2fe 90deg 180deg, #ff007f 180deg 270deg, #ffb703 270deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            position: relative;
+            transition: transform 3s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+
+        .wheel-center {
+            width: 45px;
+            height: 45px;
+            background: #070913;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--accent-neon);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #ff007f, #7f00ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+            transition: 0.2s;
+        }
+
+        .spin-result {
+            font-size: 0.8rem;
+            color: #34d399;
+            font-weight: 600;
+            min-height: 20px;
+        }
+
+        .spin-rules {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* KONTAK & SOSMED */
         .contact-links {
             display: flex;
             gap: 8px;
@@ -305,7 +338,6 @@
         }
 
         .contact-pill:hover {
-            background: rgba(255, 255, 255, 0.08);
             border-color: var(--accent-neon);
         }
 
@@ -320,21 +352,6 @@
 <body>
 
 <div class="container">
-
-    <!-- TICKER LIVE -->
-    <div class="ticker-wrap">
-        <div class="ticker-move">
-            <div class="ticker-item">BTC/IDR: <span>Rp 1.420.000.000 ↑</span></div>
-            <div class="ticker-item">ETH/IDR: <span>Rp 52.500.000 ↑</span></div>
-            <div class="ticker-item">MATIC/POL: <span>Ready Gas Fee</span></div>
-            <div class="ticker-item">USDT/IDR: <span>Rate Stable 24/7</span></div>
-            <!-- Duplikasi untuk infinite scroll -->
-            <div class="ticker-item">BTC/IDR: <span>Rp 1.420.000.000 ↑</span></div>
-            <div class="ticker-item">ETH/IDR: <span>Rp 52.500.000 ↑</span></div>
-            <div class="ticker-item">MATIC/POL: <span>Ready Gas Fee</span></div>
-            <div class="ticker-item">USDT/IDR: <span>Rate Stable 24/7</span></div>
-        </div>
-    </div>
 
     <!-- HEADER -->
     <div class="header">
@@ -351,69 +368,82 @@
         </div>
     </div>
 
-    <!-- QUICK RATE BOX -->
-    <div class="exchange-box">
-        <div class="exchange-title">⚡ Fast Market Rate & Instant Swap</div>
-        <div class="rate-grid">
-            <div class="rate-card">
-                <div class="coin">POL/MATIC</div>
-                <div class="price">Gas Ecer</div>
+    <!-- INFORMASI AKUN PEMBAYARAN RESMI -->
+    <div class="card-box">
+        <div class="section-title">💳 Rekening & Akun Pembayaran Resmi</div>
+        <div class="pay-grid">
+            <div class="pay-item">
+                <span class="pay-name">DANA</span>
+                <span class="pay-val">089657445858</span>
             </div>
-            <div class="rate-card">
-                <div class="coin">PAYPAL</div>
-                <div class="price">Auto IDR</div>
+            <div class="pay-item">
+                <span class="pay-name">GoPay</span>
+                <span class="pay-val">083136057107</span>
             </div>
-            <div class="rate-card">
-                <div class="coin">E-WALLET</div>
-                <div class="price">Instan</div>
+            <div class="pay-item" style="grid-column: span 2;">
+                <span class="pay-name">SeaBank</span>
+                <span class="pay-val">901123119104</span>
             </div>
         </div>
-        
-        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20%F0%9F%92%8E%20saya%20ingin%20transaksi%20sekarang" class="cta-btn" target="_blank" rel="noopener">
-            🚀 MULAI TRANSAKSI SEKARANG
-        </a>
+        <div class="qris-box">
+            <span class="qris-text">⚡ QRIS All Payment (Toko Kelontong)</span>
+            <span class="qris-sub">NMID: ID1025456700786 (Scan via QRIS / M-Banking)</span>
+        </div>
     </div>
 
-    <!-- LAYANAN UTAMA -->
-    <div class="section-title">✨ Layanan Mini Exchange</div>
-    <div class="services-grid">
-        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20beli%20Kripto%20ecer" class="service-item" target="_blank" rel="noopener">
-            <div class="service-icon">🪙</div>
-            <div class="service-name">Kripto Eceran</div>
-            <div class="service-desc">BTC, ETH, MATIC, BNB & Gas Fee tanpa ribet.</div>
-        </a>
+    <!-- MENU TRANSAKSI OTOMATIS -->
+    <div class="card-box">
+        <div class="section-title">⚡ Form Transaksi Instan</div>
+        <form id="orderForm" onsubmit="sendOrder(event)">
+            <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Pilih Layanan</label>
+                <select id="serviceType" class="form-select" required>
+                    <option value="" disabled selected>-- Pilih Layanan DimOTC --</option>
+                    <option value="Kripto Eceran (BTC/ETH/MATIC/BNB)">🪙 Kripto Eceran & Gas Fee</option>
+                    <option value="Convert Saldo PayPal">💳 Convert Saldo PayPal</option>
+                    <option value="Top Up E-Wallet / Pulsa">⚡ Top Up E-Wallet / Pulsa</option>
+                    <option value="Lainnya">💎 Lainnya / Request Khusus</option>
+                </select>
+            </div>
 
-        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20Convert%20PayPal" class="service-item" target="_blank" rel="noopener">
-            <div class="service-icon">💳</div>
-            <div class="service-name">Convert PayPal</div>
-            <div class="service-desc">Pencairan saldo PayPal ke Rupiah kilat.</div>
-        </a>
+            <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Nominal / Detail Pesanan</label>
+                <input type="text" id="orderDetail" class="form-input" placeholder="Contoh: Beli Matic Rp 100k / Alamat Wallet..." required>
+            </div>
 
-        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20mau%20TopUp%20E-Wallet" class="service-item" target="_blank" rel="noopener">
-            <div class="service-icon">⚡</div>
-            <div class="service-name">Top Up & Pulsa</div>
-            <div class="service-desc">Dana, OVO, Gopay, ShopeePay & All Operator.</div>
-        </a>
+            <div class="form-group" style="margin-bottom: 14px;">
+                <label class="form-label">Nomor WhatsApp Anda</label>
+                <input type="tel" id="userWhatsApp" class="form-input" placeholder="Contoh: 0896xxxxxxxx" required>
+            </div>
 
-        <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20saya%20ingin%20lapor%20kendala%20atau%20bug" class="service-item" target="_blank" rel="noopener">
-            <div class="service-icon">🛡️</div>
-            <div class="service-name">Lapor Bug / CS</div>
-            <div class="service-desc">Pusat bantuan kendala transaksi & keamanan.</div>
-        </a>
+            <button type="submit" class="submit-btn">
+                🚀 KIRIM PESANAN KE WHATSAPP
+            </button>
+        </form>
     </div>
 
-    <!-- KONTAK RESMI -->
-    <div class="contact-box">
-        <div class="exchange-title">📞 Saluran Resmi & Pengaduan</div>
+    <!-- FITUR LUCKY SPIN (ROLE / PUTARAN) -->
+    <div class="spin-container">
+        <div class="section-title" style="justify-content: center;">🎡 DimOTC Lucky Spin</div>
+        <div class="wheel-box" id="spinWheel">
+            <div class="wheel-center">SPIN</div>
+        </div>
+        <div class="spin-result" id="spinResult">Klaim Putaran Setiap 5x Transaksi!</div>
+        <p class="spin-rules">
+            🎁 <b>Syarat & Ketentuan:</b> Setiap 5x transaksi berhak 1x Putaran! Hadiah saldo hingga Rp 15.000 & Free Transaksi!
+        </p>
+        <button type="button" class="spin-btn" onclick="trySpin()">PUTAR RODA (Simulasi)</button>
+    </div>
+
+    <!-- SALURAN KONTAK CS -->
+    <div class="card-box" style="padding: 14px;">
+        <div class="section-title" style="font-size: 0.85rem;">📞 Ada Kendala? Hubungi CS</div>
         <div class="contact-links">
-            <a href="https://wa.me/6289657445858" class="contact-pill" target="_blank" rel="noopener">
-                💬 WhatsApp
+            <a href="https://wa.me/6289657445858?text=Halo%20DimOTC%20saya%20ada%20kendala%20transaksi" class="contact-pill" target="_blank" rel="noopener">
+                💬 WhatsApp CS
             </a>
             <a href="https://t.me/Putriamelia991" class="contact-pill" target="_blank" rel="noopener">
                 ✈️ Telegram
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=100063557010358" class="contact-pill" target="_blank" rel="noopener">
-                📘 Facebook
             </a>
         </div>
     </div>
@@ -423,6 +453,56 @@
     </div>
 
 </div>
+
+<script>
+    // Fungsi Mengirim Pesanan ke WhatsApp Admin
+    function sendOrder(event) {
+        event.preventDefault();
+        
+        let service = document.getElementById('serviceType').value;
+        let detail = document.getElementById('orderDetail').value;
+        let wa = document.getElementById('userWhatsApp').value;
+
+        let adminPhone = "6289657445858"; // Nomor WhatsApp Admin Anda
+        
+        let message = `Halo Admin DimOTC 💎,%0A%0ASaya ingin melakukan transaksi:%0A*Layanan:* ${service}%0A*Detail:* ${detail}%0A*No WA Saya:* ${wa}%0A%0AMohon segera diproses ya, terima kasih!`;
+
+        let whatsappURL = `https://wa.me/${adminPhone}?text=${message}`;
+        window.open(whatsappURL, '_blank');
+    }
+
+    // Fungsi Lucky Spin dengan Prioritas Hadiah (Lebih sering Rp 3.000 & Free Transaksi 2x)
+    let currentRotation = 0;
+    function trySpin() {
+        let resultText = document.getElementById('spinResult');
+        let wheel = document.getElementById('spinWheel');
+
+        // Daftar hadiah dengan probabilitas (Rp 3k & Fee 2x dibuat lebih banyak muncul)
+        let weightedPrizes = [
+            "🎉 Selamat! Anda Menang Saldo Rp 3.000!",
+            "🎉 Selamat! Anda Menang Saldo Rp 3.000!",
+            "🎉 Selamat! Anda Menang Saldo Rp 3.000!",
+            "⚡ Free 2x Fee Transaksi!",
+            "⚡ Free 2x Fee Transaksi!",
+            "⚡ Free 2x Fee Transaksi!",
+            "💰 Mantap! Dapat Saldo Rp 5.000!",
+            "🔥 Hoki! Dapat Free 3x Fee Transaksi!",
+            "💎 Wow! Bonus Saldo Rp 10.000!",
+            "🚀 JACKPOT! Grand Prize Saldo Rp 15.000!",
+            "🌟 Keren! Free 5x Fee Transaksi!"
+        ];
+
+        let randomPrize = weightedPrizes[Math.floor(Math.random() * weightedPrizes.length)];
+        
+        currentRotation += 720 + Math.floor(Math.random() * 360);
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+        resultText.innerHTML = "Memutar roda...";
+        setTimeout(() => {
+            resultText.innerHTML = randomPrize;
+        }, 3000);
+    }
+</script>
 
 </body>
 </html>
